@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.myapplication.DragLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffff"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="#ff0000"
+        android:text="item 1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#00ff00"
+        android:text="item 2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv3"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:gravity="center"-->
+    <!--android:background="#0000ff"-->
+    <!--android:text="item 3"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"/>-->
+
+    <com.example.myapplication.MyTextView
+        android:id="@+id/tv3"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#0000ff"
+        android:text="item 3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+
+</com.example.myapplication.DragLayout>
