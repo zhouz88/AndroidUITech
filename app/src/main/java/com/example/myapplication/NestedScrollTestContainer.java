@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.NestedScrollingParent;
 import androidx.core.view.NestedScrollingParent2;
 import androidx.core.view.NestedScrollingParent3;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.SizeUtils;
 
@@ -46,7 +47,7 @@ public class NestedScrollTestContainer extends FrameLayout implements NestedScro
             //下滑还有没消费的
             int scrolled = Math.max(dyUnconsumed, -getScrollY());
             consumed[1] = scrolled;
-            scrollBy(0, scrolled);
+            scrollBy(0, scrolled); //同样 appbar 是会把移动传给rv 通过 onDependentViewChanged(
         }
     }
 
@@ -59,7 +60,9 @@ public class NestedScrollTestContainer extends FrameLayout implements NestedScro
 
     @Override
     public void onNestedScrollAccepted(@NonNull View child, @NonNull View target, int axes, int type) {
-        Log.d("zhouzheng", "onNestedScrollAccepted");
+        //第一个child 是 路径上接受parent的第一个子view，第二个target 是目标recyclerview
+        Log.d("zhouzheng", "onNestedScrollAccepted" +  (child instanceof RecyclerView));
+        Log.d("zhouzheng", "onNestedScrollAccepted" +  (target instanceof RecyclerView));
     }
 
     @Override
@@ -83,7 +86,7 @@ public class NestedScrollTestContainer extends FrameLayout implements NestedScro
             } else {
                 int scrolled = Math.min(dy + getScrollY(), SizeUtils.dp2px(200f)) - getScrollY();
                 consumed[1] = scrolled;
-                scrollBy(0, consumed[1]);
+                scrollBy(0, consumed[1]); //本质是在处理appbar, appbarlayout 对应 onChildViewsChanged 这一步移动依赖于appbar的rv
             }
         } else {
             //交给小孩先处理
