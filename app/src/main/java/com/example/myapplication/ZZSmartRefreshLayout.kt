@@ -9,14 +9,10 @@ import android.view.VelocityTracker
 import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import android.widget.Scroller
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SizeUtils
 import com.example.myapplication.databinding.SmartRefreshlayoutBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class ZZSmartRefreshLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
