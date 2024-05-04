@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.graphics.drawable.AnimationDrawable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.Scroller
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SizeUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.example.myapplication.databinding.SmartRefreshlayoutBinding
 
 class ZZSmartRefreshLayout @JvmOverloads constructor(
@@ -19,7 +21,7 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     companion object {
-        val MAX_DRAG_DISTANCE = SizeUtils.dp2px(60f)
+        val MAX_DRAG_DISTANCE = SizeUtils.dp2px(150f)
     }
     private val binding = SmartRefreshlayoutBinding.inflate(LayoutInflater.from(context), this)
 
@@ -29,7 +31,7 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
     private val mVelecityTracker: VelocityTracker
     private var isDragging = false
     private var scroller = Scroller(context)
-    private val flingRunnable = FlingRunnable()
+    private val flingRunnable = FlingRunnable(0,  0)
 
     init {
         val vg = ViewConfiguration.get(context)
@@ -46,7 +48,7 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
 
     var downx = 0f
     var downy = 0f
-    var distance = 0f
+    var distance = 0
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (flingRunnable.anim) {
@@ -59,20 +61,49 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
                 // 1. assure that Downevents is not prevented 2 consumed down events here
                 downx = ev.y
                 downy = ev.y
-                distance = 0f
+                distance = if (flingRunnable.type == 1) binding.coordinator.top else 0
                 isDragging = false
                 Log.d("zhouzheng", "down")
-                super.dispatchTouchEvent(ev)
+                if (flingRunnable.type != 1) {
+                    super.dispatchTouchEvent(ev)
+                }
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
                 // 如果可以move 就
+                if (flingRunnable.type == 1) {
+                    val detaly = (ev.y - downy).toInt()
+                    if (detaly >= 0) {
+                        var offset = detaly
+                        if ((detaly + distance).toInt() >= SizeUtils.dp2px(60f)) {
+                            offset = (SizeUtils.dp2px(60f) - distance)
+                        }
+                        distance += offset
+                        ViewCompat.offsetTopAndBottom(binding.coordinator, offset)
+                        ViewCompat.offsetTopAndBottom(binding.imageLoading, offset)
+                    } else {
+                        Log.d("distance旧的", "${detaly}AA${distance}")
+                        var offset = detaly
+                        if (distance + detaly <0) {
+                            offset = -distance
+                        }
+                        distance += offset
+                        Log.d("distance新的", "${distance}")
+                        ViewCompat.offsetTopAndBottom(binding.coordinator, offset)
+                        ViewCompat.offsetTopAndBottom(binding.imageLoading, offset)
+                    }
+                    downx = ev.y
+                    downy = ev.y
+                    return true
+                }
                 if (canDragContent(ev)) {
                     isDragging = true
                    // Log.d("zhouzheng", "isdrag 为true啦")
                 } else {
                     isDragging = false
                 }
+
+                (binding.imageLoading.drawable as AnimationDrawable).selectDrawable(15)
                 if (isDragging) {
                     val trueDelta = (ev.y - downy)  * dragRate(distance.toInt(), MAX_DRAG_DISTANCE)
                     Log.d("zhouzheng", "dragragte${dragRate(distance.toInt(), MAX_DRAG_DISTANCE)}")
@@ -86,6 +117,7 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
                         offset = (MAX_DRAG_DISTANCE - distance).toInt()
                     }
                     ViewCompat.offsetTopAndBottom(binding.coordinator, offset)
+                    ViewCompat.offsetTopAndBottom(binding.imageLoading, offset)
                     distance += offset
                     downx = ev.y
                     downy = ev.y
@@ -97,13 +129,29 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 Log.d("zhouzheng", "up")
                 if (isDragging) {
-                    flingRunnable.anim = true
-                    flingRunnable.postOnAnimation()
-                    //mVelecityTracker.computeCurrentVelocity(1000, mMaxVelocity.toFloat())
+                    if (distance >= MAX_DRAG_DISTANCE * 2/3f) {
+                        flingRunnable.apply {
+                            anim = true
+                            total = distance - SizeUtils.dp2px(60f)
+                            Log.d("zhouzheng1", "total${distance}")
+                            type = 1
+                            postOnAnimation()
+                            //开始绿色动画
+                        }
+                    } else {
+                        flingRunnable.apply {
+                            anim = true
+                            type = 0
+                            Log.d("zhouzheng1", "distance${distance}")
+                            total = distance
+                            postOnAnimation()
+                        }
+                        //mVelecityTracker.computeCurrentVelocity(1000, mMaxVelocity.toFloat())
 //                    (context as AppCompatActivity).lifecycle.coroutineScope.launch {
 //                       delay(2000)
 //                       flingRunnable.postOnAnimation()
 //                    }
+                    }
                 }
                 isDragging = false
             }
@@ -114,27 +162,48 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
         return super.dispatchTouchEvent(ev)
     }
 
-    inner class FlingRunnable : Runnable {
+    private fun goback() {
+        flingRunnable.apply {
+            anim = true
+            type = 0
+            Log.d("zhouzheng1", "distance${distance}")
+            total = binding.coordinator.top
+            postOnAnimation()
+        }
+    }
+
+    // type 0 1. scroll distance 1. scroll to loadingt state, 2 from loading to top
+    inner class FlingRunnable(var total: Int, var type: Int) : Runnable {
         var anim = false
         override fun run() {
             if (scroller.computeScrollOffset()) {
                // Log.d("zhouzheng", "手指放开动画啦${-scroller.currY} distrance${distance} detal${before - scroller.currY}")
                 val delta = before - scroller.currY
                 ViewCompat.offsetTopAndBottom(binding.coordinator, delta.toInt())
-                before = scroller.currY.toFloat()
+                ViewCompat.offsetTopAndBottom(binding.imageLoading, delta.toInt())
+                before = scroller.currY
                 this@ZZSmartRefreshLayout.postOnAnimation(this)
             } else {
                 anim = false
+
+                if (type == 1) {
+                    (binding.imageLoading.drawable as AnimationDrawable).start()
+                    binding.imageLoading.postDelayed({
+                        (binding.imageLoading.drawable as AnimationDrawable).stop()
+                        ToastUtils.showShort("OK downloading!")
+                        goback()
+                    }, 2000)
+                }
             }
         }
 
         fun postOnAnimation() {
             anim = true
-            before = distance
-            scroller.startScroll(0, distance.toInt(), 0, distance.toInt() ,150)
+            before = total
+            scroller.startScroll(0, total.toInt(), 0, total.toInt() ,150)
             this@ZZSmartRefreshLayout.postOnAnimation(this)
         }
-        var before = 0f
+        var before = 0
     }
 
     private fun dragRate(y: Int, total: Int) : Float{
@@ -142,7 +211,7 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
     }
 
     private fun canDragContent(event: MotionEvent): Boolean {
-        return (distance > 0 || distance == 0f && event.y - downy > 0) && !canRvScroll() && !canAppbarScroll()
+        return (distance > 0 || distance == 0 && (event.y - downy).toInt() > 0) && !canRvScroll() && !canAppbarScroll()
     }
 
     private fun canAppbarScroll(): Boolean {

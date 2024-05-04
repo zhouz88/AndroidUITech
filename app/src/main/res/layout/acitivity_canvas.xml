@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.example.myapplication.konjianlearn.BasicCanvasView
+        android:layout_width="400dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <com.example.myapplication.konjianlearn.PathMeasureView
+        android:id="@+id/measure_path"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.example.myapplication.konjianlearn.LoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="click 1"
+            android:ellipsize="end"
+            android:textSize="17sp"
+            android:paddingVertical="10dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#ff00ff00"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="click 2"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#ff00ff00"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="click 3"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:textColor="#ff00ff00"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="click 4"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:paddingVertical="10dp"
+            android:textColor="#ff00ff00"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.LayoutParams;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CustomLayoutManagerRecycled2 extends RecyclerView.LayoutManager {
     private int mSumDy = 0;

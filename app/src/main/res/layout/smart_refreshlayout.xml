@@ -5,6 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageView
+        android:layout_gravity="top|center_horizontal"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="7dp"
+        android:layout_marginTop="-60dp"
+        android:src="@drawable/anim_a"
+        android:id="@+id/image_loading">
+    </ImageView>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
