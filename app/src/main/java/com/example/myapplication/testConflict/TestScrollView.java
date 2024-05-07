@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import java.lang.reflect.Field;
@@ -25,10 +27,30 @@ public class TestScrollView extends ScrollView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    private View child;
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        child = ((LinearLayout)getChildAt(0)).getChildAt(0);
+    }
+
+
+    //不是拦截法 关闭下面就是走requetdiallowtouch
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        boolean f = super.onInterceptTouchEvent(ev);
-        Log.d("zhouzheng", "拦截了哦" + f);
+        float x = ev.getX();
+        float y = ev.getY();
+        if (y >= child.getTop() - getScrollY()
+                && y <= child.getBottom() - getScrollY()
+                && x >= child.getLeft()
+                && x <= child.getRight()) {
+            if (ev.getActionMasked() == MotionEvent.ACTION_DOWN ||
+                ev.getActionMasked() == MotionEvent.ACTION_MOVE) {
+                Log.d("zhouzheng", "拦截");
+                return false;
+            }
+        }
         return super.onInterceptTouchEvent(ev);
     }
 }
