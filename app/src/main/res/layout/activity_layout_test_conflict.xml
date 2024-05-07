@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.myapplication.testConflict.TestScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.example.myapplication.testConflict.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="#330000ff"
+            android:text="STARTdajlsfjilodasfjiloadsl;ihjkfalskhij;fjhlikas
+dfasdsa
+
+fdsafdasfadsl;jfladsjifoadsjilo;fjil;adsl;hijkfal;ikhsj
+dfasljfasdi
+adfsnhlkafkhijl
+dafsjlasdif
+dfhnklailodf
+adshnflkasdf
+adslhjaidlosfdasfdas
+dfas
+dfas
+fdsafdasfadsl;jfladsjifoadsjilo;fjil;adsl;hijkfal;ikhsj
+dfasljfasdi
+adfsnhlkafkhijl
+dafsjlasdif
+dfhnklailodf
+adshnflkasdf
+adslhjaidlosfdasfdas
+dfas
+dfas
+adsf
+asdf
+adfs
+fdsafdasfadsl;jfladsjifoadsjilo;fjil;adsl;hijkfal;ikhsj
+dfasljfasdi
+adfsnhlkafkhijl
+dafsjlasdif
+dfhnklailodf
+adshnflkasdf
+adslhjaidlosfdasfdas
+dfas
+dfas
+adsf
+asdf
+adfs
+
+fads
+
+fads
+
+afdsjhlfiads
+fjliasdf
+afdsjhlfiads
+afdsjhlfiads
+afdsjhlfiads
+afdsjhlfiads
+adsf
+asdf
+adfs
+
+fads
+
+afdsjhlfiads
+fjliasdf
+afdsjhlfiads
+afdsjhlfiads
+afdsjhlfiads
+afdsjhlfiads
+afdsjhlfiads
+afdsjhlfiads
+END
+"
+            android:textSize="20sp" />
+
+        <View
+            android:background="#3300ff00"
+            android:layout_width="match_parent"
+            android:layout_height="1000dp">
+
+        </View>
+    </LinearLayout>
+
+</com.example.myapplication.testConflict.TestScrollView>
