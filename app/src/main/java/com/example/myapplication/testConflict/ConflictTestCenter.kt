@@ -10,17 +10,17 @@ import com.example.myapplication.databinding.ActivityLayoutTestConflictBinding
 
 class ConflictTestCenter: AppCompatActivity() {
 
-    //private lateinit var binding: ActivityLayoutTestConflictBinding
+    private lateinit var binding: ActivityLayoutTestConflictBinding
 
-    private lateinit var binding: AcivityNewInterceptBinding
+    //private lateinit var binding: AcivityNewInterceptBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = ActivityLayoutTestConflictBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-
-        binding = AcivityNewInterceptBinding.inflate(layoutInflater)
+        binding = ActivityLayoutTestConflictBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.text.movementMethod = ScrollingMovementMethod.getInstance()
+
+//        binding = AcivityNewInterceptBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//        binding.text.movementMethod = ScrollingMovementMethod.getInstance()
     }
 }
