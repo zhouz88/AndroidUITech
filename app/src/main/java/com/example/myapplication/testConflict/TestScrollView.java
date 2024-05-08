@@ -37,20 +37,20 @@ public class TestScrollView extends ScrollView {
 
 
     //不是拦截法 关闭下面就是走requetdiallowtouch
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        float x = ev.getX();
-        float y = ev.getY();
-        if (y >= child.getTop() - getScrollY()
-                && y <= child.getBottom() - getScrollY()
-                && x >= child.getLeft()
-                && x <= child.getRight()) {
-            if (ev.getActionMasked() == MotionEvent.ACTION_DOWN ||
-                ev.getActionMasked() == MotionEvent.ACTION_MOVE) {
-                Log.d("zhouzheng", "拦截");
-                return false;
-            }
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        float x = ev.getX();
+//        float y = ev.getY();
+//        if (y >= child.getTop() - getScrollY()
+//                && y <= child.getBottom() - getScrollY()
+//                && x >= child.getLeft()
+//                && x <= child.getRight()) {
+//            if (ev.getActionMasked() == MotionEvent.ACTION_DOWN ||
+//                ev.getActionMasked() == MotionEvent.ACTION_MOVE) {
+//                Log.d("zhouzheng", "拦截");
+//                return false;
+//            }
+//        }
+//        return super.onInterceptTouchEvent(ev);
+//    }
 }

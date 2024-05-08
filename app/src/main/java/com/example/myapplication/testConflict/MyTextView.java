@@ -1,11 +1,14 @@
 package com.example.myapplication.testConflict;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.RemoteViews;
 import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
@@ -43,7 +46,7 @@ public class MyTextView extends AppCompatTextView {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
             getParent().requestDisallowInterceptTouchEvent(true);
         } else if (event.getActionMasked() == MotionEvent.ACTION_UP) {
             getParent().requestDisallowInterceptTouchEvent(false);

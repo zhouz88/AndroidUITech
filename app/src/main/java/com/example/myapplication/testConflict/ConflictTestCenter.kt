@@ -2,6 +2,8 @@ package com.example.myapplication.testConflict
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.widget.Scroller
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.AcivityNewInterceptBinding
 import com.example.myapplication.databinding.ActivityLayoutTestConflictBinding
