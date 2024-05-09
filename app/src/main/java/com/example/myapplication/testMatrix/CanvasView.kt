@@ -392,25 +392,25 @@ class CanvasView @JvmOverloads constructor(
     }
 
     private fun drawMask(canvas: Canvas) {
-//        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.lucky_box_end_selected)
-//        val alphaBitmap = bitmap.extractAlpha()
-//        val paint = Paint().apply {
-//            color = Color.GRAY
-//            maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL)
-//        }
-//        canvas.drawBitmap(alphaBitmap, null, RectF(80f, 80f, 620f, 620f), paint)
-//
-//        canvas.save()
-//        //canvas.translate(-5f, -5f)
-//
-//        paint.apply {
-//            maskFilter = null
-//            color = Color.RED
-//            style = Paint.Style.STROKE
-//            strokeWidth = dpF(10f)
-//        }
-//        canvas.drawBitmap(bitmap, null, RectF(100f, 100f, 600f, 600f), paint) //paint 这里可以认为无效 除非用ColorFilter
-//        canvas.restore()
+        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.lover_pop_anim_006)
+        val alphaBitmap = bitmap.extractAlpha()
+        val paint = Paint().apply {
+            color = Color.GRAY
+            maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL)
+        }
+        canvas.drawBitmap(alphaBitmap, null, RectF(80f, 80f, 620f, 620f), paint)
+
+        canvas.save()
+        //canvas.translate(-5f, -5f)
+
+        paint.apply {
+            maskFilter = null
+            color = Color.RED
+            style = Paint.Style.STROKE
+            strokeWidth = dpF(10f)
+        }
+        canvas.drawBitmap(bitmap, null, RectF(100f, 100f, 600f, 600f), paint) //paint 这里可以认为无效 除非用ColorFilter
+        canvas.restore()
 
     }
 
