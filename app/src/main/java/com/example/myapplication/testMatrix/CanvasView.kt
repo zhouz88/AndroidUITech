@@ -392,25 +392,25 @@ class CanvasView @JvmOverloads constructor(
     }
 
     private fun drawMask(canvas: Canvas) {
-        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.lucky_box_end_selected)
-        val alphaBitmap = bitmap.extractAlpha()
-        val paint = Paint().apply {
-            color = Color.GRAY
-            maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL)
-        }
-        canvas.drawBitmap(alphaBitmap, null, RectF(80f, 80f, 620f, 620f), paint)
-
-        canvas.save()
-        //canvas.translate(-5f, -5f)
-
-        paint.apply {
-            maskFilter = null
-            color = Color.RED
-            style = Paint.Style.STROKE
-            strokeWidth = dpF(10f)
-        }
-        canvas.drawBitmap(bitmap, null, RectF(100f, 100f, 600f, 600f), paint) //paint 这里可以认为无效 除非用ColorFilter
-        canvas.restore()
+//        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.lucky_box_end_selected)
+//        val alphaBitmap = bitmap.extractAlpha()
+//        val paint = Paint().apply {
+//            color = Color.GRAY
+//            maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL)
+//        }
+//        canvas.drawBitmap(alphaBitmap, null, RectF(80f, 80f, 620f, 620f), paint)
+//
+//        canvas.save()
+//        //canvas.translate(-5f, -5f)
+//
+//        paint.apply {
+//            maskFilter = null
+//            color = Color.RED
+//            style = Paint.Style.STROKE
+//            strokeWidth = dpF(10f)
+//        }
+//        canvas.drawBitmap(bitmap, null, RectF(100f, 100f, 600f, 600f), paint) //paint 这里可以认为无效 除非用ColorFilter
+//        canvas.restore()
 
     }
 
@@ -468,7 +468,7 @@ class LightBgDrawable(val ringThickNess: Float, val circleColor: Int) : Drawable
             strokeWidth = ringThickNess
             style = Paint.Style.STROKE
         }
-        mShaderMatrix.setRotate(45f, (bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2)
+        mShaderMatrix.setRotate(45f, bounds.right - ringThickNess/2, bounds.top - ringThickNess/2)
         mPaint.shader.setLocalMatrix(mShaderMatrix)
         canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f - ringThickNess/2, mPaint)
     }
@@ -504,7 +504,7 @@ class LightBgDrawable2(val ringThickNess: Float, val circleColor: Int) : Drawabl
             0f,  bounds.top.toFloat(), 0f,
              bounds.bottom.toFloat(),  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
         mShaderMatrix.reset()
-        mShaderMatrix.setRotate(45f, (bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2)
+        mShaderMatrix.setRotate(45f,  bounds.right.toFloat(), bounds.top.toFloat())
         mPaint.shader.setLocalMatrix(mShaderMatrix)
         canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f, mPaint)
         mPaint.reset()
