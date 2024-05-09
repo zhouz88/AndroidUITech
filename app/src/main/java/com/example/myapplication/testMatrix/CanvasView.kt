@@ -461,7 +461,7 @@ class LightBgDrawable(val ringThickNess: Float, val circleColor: Int) : Drawable
         Log.d("zhouzheng", "${width}:${height}")
         mPaint.reset()
         mPaint.shader = LinearGradient(
-            0f, (bounds.top + ringThickNess/2), 0f,
+            100000f, (bounds.top + ringThickNess/2), 100000f,
             bounds.bottom - ringThickNess/2,  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
         mShaderMatrix.reset()
         mPaint.apply {
