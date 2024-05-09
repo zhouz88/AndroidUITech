@@ -420,20 +420,35 @@ class CanvasView @JvmOverloads constructor(
 
 
     private fun shader(canvas: Canvas) {
+        canvas.drawColor(0x3300ff00)
         val rect = Rect(0,0,dp(90f), dp(90f))
-        rect.offset(100, 100)
-        val lightBgDrawable = LightBgDrawable(dpF(5F), 0xffffffff.toInt()).apply {
+        rect.offset(dp(30f), dp(30f))
+        val lightBgDrawable = LightBgDrawable(dpF(10F), 0xffffffff.toInt()).apply {
             bounds = rect
         }
 
         lightBgDrawable.draw(canvas = canvas)
 
 
-        val rect2 = Rect(100,600,100+dp(90f), dp(90f)+600)
-        val lightBgDrawable2 = LightBgDrawable2(dpF(5F), 0xffffffff.toInt()).apply {
+        val rect2 = Rect(dp(30f),500,dp(90f)+dp(30f), dp(90f)+500)
+        val lightBgDrawable2 = LightBgDrawable2(dpF(10F), 0xffffffff.toInt()).apply {
             bounds = rect2
         }
         lightBgDrawable2.draw(canvas = canvas)
+
+        canvas.drawLine(dp(30f)  + dpF(10f),0f,dp(30f)  + dpF(10f) , height.toFloat(), Paint().apply{
+            strokeWidth = dpF(1f)
+            color = Color.BLACK
+        })
+
+        canvas.drawLine(dp(30f)  + dpF(5f),0f,dp(30f)  + dpF(5f) , height.toFloat(), Paint().apply{
+            strokeWidth = dpF(1f)
+            color = Color.BLACK
+        })
+        canvas.drawLine(dpF(30f),0f,dpF(30f) , height.toFloat(), Paint().apply{
+            strokeWidth = dpF(1f)
+            color = Color.BLACK
+        })
     }
 }
 
@@ -446,16 +461,17 @@ class LightBgDrawable(val ringThickNess: Float, val circleColor: Int) : Drawable
         Log.d("zhouzheng", "${width}:${height}")
         mPaint.reset()
         mPaint.shader = LinearGradient(
-            0f, 0f, 0f,
-            height.toFloat(),  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
+            0f, (bounds.top + ringThickNess/2), 0f,
+            bounds.bottom - ringThickNess/2,  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
         mShaderMatrix.reset()
         mPaint.apply {
             strokeWidth = ringThickNess
             style = Paint.Style.STROKE
         }
-        mShaderMatrix.setRotate(45f, bounds.top.toFloat(), bounds.right.toFloat())
+        mShaderMatrix.setRotate(45f, (bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2)
         mPaint.shader.setLocalMatrix(mShaderMatrix)
-        canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f - ringThickNess/2, mPaint) }
+        canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f - ringThickNess/2, mPaint)
+    }
 
     override fun setAlpha(alpha: Int) {
     }
@@ -485,15 +501,15 @@ class LightBgDrawable2(val ringThickNess: Float, val circleColor: Int) : Drawabl
         val height = bounds.height()
         mPaint.reset()
         mPaint.shader = LinearGradient(
-            0f, 0f, 0f,
-            height.toFloat(),  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
+            0f,  bounds.top.toFloat(), 0f,
+             bounds.bottom.toFloat(),  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
         mShaderMatrix.reset()
-        mShaderMatrix.setRotate(45f, bounds.top.toFloat(), bounds.right.toFloat())
+        mShaderMatrix.setRotate(45f, (bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2)
         mPaint.shader.setLocalMatrix(mShaderMatrix)
         canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f, mPaint)
         mPaint.reset()
         mPaint.color = circleColor
-       canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f - ringThickNess, mPaint)
+        canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f - ringThickNess, mPaint)
     }
 
     override fun setAlpha(alpha: Int) {
