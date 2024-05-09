@@ -506,6 +506,7 @@ class LightBgDrawable2(val ringThickNess: Float, val circleColor: Int) : Drawabl
         mShaderMatrix.reset()
         mShaderMatrix.setRotate(45f,  bounds.right.toFloat(), bounds.top.toFloat())
         mPaint.shader.setLocalMatrix(mShaderMatrix)
+        //mPaint.maskFilter = BlurMaskFilter(10f, BlurMaskFilter.Blur.NORMAL)
         canvas.drawCircle((bounds.left.toFloat() + bounds.right.toFloat())/2, (bounds.top.toFloat() + bounds.bottom.toFloat())/2, width/2f, mPaint)
         mPaint.reset()
         mPaint.color = circleColor
