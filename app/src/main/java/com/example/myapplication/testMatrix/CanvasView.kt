@@ -10,6 +10,7 @@ import android.graphics.ColorFilter
 import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.Paint.Style
 import android.graphics.Path
 import android.graphics.PixelFormat
 import android.graphics.Rect
@@ -33,9 +34,13 @@ class CanvasView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    var drawing = false
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (!drawing) {
+            return
+        }
         canvas.save()
         val rectF = RectF(0f, 0f, 400f, 400f)
         if (false) {
@@ -82,17 +87,29 @@ class CanvasView @JvmOverloads constructor(
             shader(canvas)
             return
         }
+        if (false) {
+            test10(canvas)
+            return
+        }
+        if (false) {
+            testPolyToPoly(canvas)
+            return
+        }
+        if (false) {
+            testRectToRect(canvas)
+            return
+        }
         val paint = Paint()
         val matrix = Matrix()
         val xiangji = Camera()
-
+        Log.d("zhouzheng pre", matrix.toShortString())
         xiangji.save()
         xiangji.rotateY(30f)
         xiangji.getMatrix(matrix)
         xiangji.restore()
-
+        Log.d("zhouzheng b", matrix.toShortString())
         matrix.postTranslate(width/2f, height/2f)
-
+        Log.d("zhouzheng a", matrix.toShortString())
         canvas.concat(matrix)  //这个狠！ 坐标跟着都平移了
         paint.color = 0x33000000
         canvas.drawRect(rectF, paint)
@@ -101,6 +118,96 @@ class CanvasView @JvmOverloads constructor(
         canvas.setMatrix(matrix)
         paint.color = Color.RED
         canvas.drawRect(rectF, paint)
+        canvas.restore()
+    }
+
+    private fun testPolyToPoly(canvas: Canvas) {
+        val m = Matrix()
+        val paintGreen = Paint().apply {
+            style = Style.STROKE
+            color = 0xff00ff00.toInt()
+            strokeWidth = dpF(2f)
+        }
+        val redGreen = Paint().apply {
+            style = Style.STROKE
+            color = 0xffff0000.toInt()
+            strokeWidth = dpF(2f)
+        }
+        val blue = Paint().apply {
+            style = Style.STROKE
+            color = 0xff0000ff.toInt()
+            strokeWidth = dpF(2f)
+        }
+        val rect0 = floatArrayOf(
+            0f, 0f,
+            0f, 400f,
+            400f, 400f,
+            400f, 0f
+        )
+        val rect1 = floatArrayOf(
+            500f, 500f,
+            500f, 700f,
+            600f, 800f,
+            600f, 700f
+        )
+        val path = Path()
+        path.moveTo(rect0[0], rect0[1])
+        path.lineTo(rect0[2], rect0[3])
+        path.lineTo(rect0[4], rect0[5])
+        path.lineTo(rect0[6], rect0[7])
+        path.close()
+        canvas.drawPath(path, paintGreen)
+        path.reset()
+        path.moveTo(rect1[0], rect1[1])
+        path.lineTo(rect1[2], rect1[3])
+        path.lineTo(rect1[4], rect1[5])
+        path.lineTo(rect1[6], rect1[7])
+        path.close()
+        canvas.drawPath(path, redGreen)
+
+        m.setPolyToPoly(rect0,0, rect1, 0, 1)
+
+        val f = rect0.clone()
+        m.mapPoints(f)
+        path.reset()
+        path.moveTo(f[0], f[1])
+        path.lineTo(f[2], f[3])
+        path.lineTo(f[4], f[5])
+        path.lineTo(f[6], f[7])
+        path.close()
+        canvas.drawPath(path, blue)
+    }
+
+    private fun testRectToRect(canvas: Canvas) {
+        val m = Matrix()
+        val bitmap = BitmapFactory.decodeResource(resources,  R.mipmap.item2)
+        val rectF1 = RectF(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+
+        val rectF2 = RectF(0f, 0f, width.toFloat(), height.toFloat())
+
+        m.setRectToRect(rectF1, rectF2, Matrix.ScaleToFit.END)
+
+        canvas.concat(m)
+        canvas.drawBitmap(bitmap, Matrix(), null)
+    }
+
+    private fun test10(canvas: Canvas) {
+        canvas.save()
+        val rect = RectF(0f,0f,300f,200f)
+        val m = Matrix()
+        m.preTranslate(width/2f, height/2f)
+        canvas.setMatrix(m)
+        val paint = Paint().apply {
+            color = Color.BLACK
+        }
+        canvas.drawRect(rect, paint)
+        val m2 = Matrix()
+        m2.setSinCos(1f,0f)
+        m.preConcat(m2)
+        canvas.setMatrix(m)
+        paint.setColor(Color.RED)
+        canvas.drawRect(rect, paint)
+        canvas.drawCircle(0f,0f,5f, paint)
         canvas.restore()
     }
 

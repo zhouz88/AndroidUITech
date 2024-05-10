@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.example.myapplication.testMatrix.CanvasView
         android:id="@+id/v"
@@ -10,4 +10,23 @@
         android:layout_height="match_parent">
 
     </com.example.myapplication.testMatrix.CanvasView>
+
+   <com.example.myapplication.testMatrix.AnimationView
+       android:id="@+id/b"
+       android:text="View anin will change me"
+       android:textStyle="bold"
+       android:textSize="20sp"
+       android:gravity="center"
+       android:background="#3300ff00"
+       android:textColor="@color/black"
+       app:layout_constraintTop_toTopOf="parent"
+       android:layout_width="match_parent"
+       android:layout_height="400dp">
+   </com.example.myapplication.testMatrix.AnimationView>
+    <com.example.myapplication.testMatrix.Folder
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.example.myapplication.testMatrix.Folder>
 </androidx.constraintlayout.widget.ConstraintLayout>
