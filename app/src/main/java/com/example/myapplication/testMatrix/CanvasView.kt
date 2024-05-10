@@ -34,7 +34,7 @@ class CanvasView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    var drawing = false
+    var drawing = true
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -95,7 +95,7 @@ class CanvasView @JvmOverloads constructor(
             testPolyToPoly(canvas)
             return
         }
-        if (false) {
+        if (true) {
             testRectToRect(canvas)
             return
         }
@@ -165,7 +165,7 @@ class CanvasView @JvmOverloads constructor(
         path.close()
         canvas.drawPath(path, redGreen)
 
-        m.setPolyToPoly(rect0,0, rect1, 0, 1)
+        m.setPolyToPoly(rect0,0, rect1, 0, 4)
 
         val f = rect0.clone()
         m.mapPoints(f)
@@ -176,12 +176,33 @@ class CanvasView @JvmOverloads constructor(
         path.lineTo(f[6], f[7])
         path.close()
         canvas.drawPath(path, blue)
+
+        canvas.setMatrix(m)
+        canvas.drawRect(Rect(244, 100,300,700), Paint().apply {
+            style = Style.STROKE
+            color = 0xff000000.toInt()
+            strokeWidth = dpF(3f)
+        })
+
+
+        val f1 = RectF(50f,50f,200f,500f)
+        val path1 = Path()
+        path.addOval(f1, Path.Direction.CW)
+
+        canvas.drawPath(path1, Paint().apply {
+            style = Style.STROKE
+            color = 0xff000000.toInt()
+            strokeWidth = dpF(4f)
+        })
     }
 
+
+    //可以实现局部图放大
     private fun testRectToRect(canvas: Canvas) {
         val m = Matrix()
+        canvas.save()
         val bitmap = BitmapFactory.decodeResource(resources,  R.mipmap.item2)
-        val rectF1 = RectF(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+        val rectF1 = RectF(0f, 0f, 300f, 400f)
 
         val rectF2 = RectF(0f, 0f, width.toFloat(), height.toFloat())
 
@@ -189,6 +210,21 @@ class CanvasView @JvmOverloads constructor(
 
         canvas.concat(m)
         canvas.drawBitmap(bitmap, Matrix(), null)
+        canvas.drawRect(100f, 100f, 1000f, 2000f, Paint().apply{
+            style = Style.STROKE
+            color = 0xff000000.toInt()
+            strokeWidth = dpF(4f)
+        })
+
+        canvas.restore()
+        //投射前
+        canvas.clipRect(rectF1)
+        canvas.drawBitmap(bitmap, Matrix(), null)
+        canvas.drawRect(100f, 100f, 1000f, 2000f, Paint().apply{
+            style = Style.STROKE
+            color = 0xff000000.toInt()
+            strokeWidth = dpF(4f)
+        })
     }
 
     private fun test10(canvas: Canvas) {

@@ -25,6 +25,7 @@
    </com.example.myapplication.testMatrix.AnimationView>
     <com.example.myapplication.testMatrix.Folder
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
