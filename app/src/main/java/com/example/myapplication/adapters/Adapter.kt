@@ -25,5 +25,10 @@ open class DAdapter(val context: Context): RecyclerView.Adapter<DAdapter.VH>(){
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.binding.root.text = "Hi." + position
+        holder.binding.root.setOnClickListener {
+            runnable?.run()
+        }
     }
+
+    var runnable: Runnable? = null
 }

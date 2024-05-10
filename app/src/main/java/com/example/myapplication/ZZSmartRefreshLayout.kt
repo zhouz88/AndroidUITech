@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.example.myapplication.databinding.SmartRefreshlayoutBinding
+import com.google.android.material.appbar.AppBarLayout
 
 class ZZSmartRefreshLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -33,6 +34,8 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
     private var scroller = Scroller(context)
     private val flingRunnable = FlingRunnable(0,  0)
 
+    private var offset = 0
+
     init {
         val vg = ViewConfiguration.get(context)
         mMinVelocity = vg.scaledMinimumFlingVelocity
@@ -44,6 +47,12 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
         super.onFinishInflate()
         binding.rv.layoutManager = LinearLayoutManager(context)
         binding.rv.adapter = com.example.myapplication.adapters.DAdapter(context)
+        binding.appbar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener{
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+               offset = verticalOffset
+            }
+
+        })
     }
 
     var downx = 0f
@@ -215,6 +224,8 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
     }
 
     private fun canAppbarScroll(): Boolean {
+//        Log.d("zhouzheng", "appbar offset${binding.appbar.top}H${offset}")
+//        return offset < 0
         Log.d("zhouzheng", "appbar offset${binding.appbar.top}")
         return binding.appbar.top < 0
     }
