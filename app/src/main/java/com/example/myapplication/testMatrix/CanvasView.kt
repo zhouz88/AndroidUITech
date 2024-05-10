@@ -3,6 +3,7 @@ package com.example.myapplication.testMatrix
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.BlurMaskFilter
+import android.graphics.Camera
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ColorFilter
@@ -77,13 +78,20 @@ class CanvasView @JvmOverloads constructor(
             drawMask(canvas)
             return
         }
-        if (true) {
+        if (false) {
             shader(canvas)
             return
         }
-       val paint = Paint()
+        val paint = Paint()
         val matrix = Matrix()
-        matrix.preTranslate(width/2f, height/2f)
+        val xiangji = Camera()
+
+        xiangji.save()
+        xiangji.rotateY(30f)
+        xiangji.getMatrix(matrix)
+        xiangji.restore()
+
+        matrix.postTranslate(width/2f, height/2f)
 
         canvas.concat(matrix)  //这个狠！ 坐标跟着都平移了
         paint.color = 0x33000000
