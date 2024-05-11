@@ -60,8 +60,11 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
  *
  *                     最后一步会requestlayout!!! 从而choreographer.postcallback
  *
- *  在makevisible 之前会调用 activity.performresume ->       mInstrumentation.callActivityOnResume(this);
+ *  在makevisible 之前handleresumeactivity方法内会调用 activity.performresume ->       mInstrumentation.callActivityOnResume(this);
  *  -> activiyt.onRESUME!!!!!! 因此 onResume调用时候还没调用requestlayout!
+ *
+ *
+ *  perform launch activity -> activity的 attach方法创建phonewindw
  */
 class TestActivity: AppCompatActivity() {
 

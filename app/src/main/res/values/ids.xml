@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="text2" />
+    <item type="id" name="title" />
+    <item type="id" name="title_container" />
+    <item type="id" name="toggle" />
+    <item type="id" name="secondaryProgress" />
+    <item type="id" name="lock_screen" />
+    <item type="id" name="edit" />
+</resources>

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.example.myapplication.databinding.SmartRefreshlayoutBinding
+import com.example.myapplication.dialogs.BaseDialog
 import com.google.android.material.appbar.AppBarLayout
 
 class ZZSmartRefreshLayout @JvmOverloads constructor(
@@ -47,6 +48,11 @@ class ZZSmartRefreshLayout @JvmOverloads constructor(
         super.onFinishInflate()
         binding.rv.layoutManager = LinearLayoutManager(context)
         binding.rv.adapter = com.example.myapplication.adapters.DAdapter(context)
+            .apply {
+                runnable = Runnable {
+                    com.example.myapplication.dialogs.show(context, BaseDialog())
+                }
+            }
         binding.appbar.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener{
             override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
                offset = verticalOffset
