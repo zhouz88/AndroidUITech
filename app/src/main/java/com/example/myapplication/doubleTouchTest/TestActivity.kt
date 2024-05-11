@@ -41,7 +41,7 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
 而activity 的onattachto window 在decorview 调用
  */
 
-//dialog绝大部分window机制和act一样
+//dialog绝大部分window机制和act一样   act 在 resume中调用，但是dialog 在show中wm.addview
 /**
  * setcontentview -> getwindow().setcontentvew() -> installdecor -> cb.onContentChanged()
  * 然后 在 handleresumeactivity -> makesible
@@ -60,7 +60,8 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
  *
  *                     最后一步会requestlayout!!! 从而choreographer.postcallback
  *
- *
+ *  在makevisible 之前会调用 activity.performresume ->       mInstrumentation.callActivityOnResume(this);
+ *  -> activiyt.onRESUME!!!!!! 因此 onResume调用时候还没调用requestlayout!
  */
 class TestActivity: AppCompatActivity() {
 
