@@ -40,7 +40,7 @@ class BaseDialog: DialogFragment() {
             dismissAllowingStateLoss()
         }
 
-        Log.d("zhouzheng", "sb${((dialog?.window?.decorView?.findViewById<View>(android.R.id.content)?.parent) as ViewGroup).getChildAt(1) == dialog?.window?.decorView?.findViewById<View>(android.R.id.content)}")
+        Log.d("zhouzheng", "sb${((dialog?.window?.decorView?.findViewById<View>(android.R.id.content)?.parent) as ViewGroup).getChildAt(0)::class.java.name}")
     }
 
     override fun onCreateView(

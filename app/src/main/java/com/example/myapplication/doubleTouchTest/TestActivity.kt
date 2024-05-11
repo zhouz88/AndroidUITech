@@ -65,6 +65,21 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
  *
  *
  *  perform launch activity -> activity的 attach方法创建phonewindw
+ *
+ *  启动流程
+ *
+ *  https://luisliu.cn/post/android/android-activity_startup/#1-1-ActivityThread%E5%88%9D%E5%A7%8B%E5%8C%96
+ *  有的人说是因为这个文件是保护文件，就是注解了是内部保护文件，所以在eclipse，Androidstudio中都是不显示的。所以可以去SDk的安装目录
+ *  中的sources文件夹中直接找那个Java文件，/android-sdk/sources/android-19/android/app/ContextImpl.java
+ *
+ * 其实不是哦，android确实有隐藏文件，但是ContextImpl， ActivityThread，PhoneWindow这些都不是隐藏文件，但是为什么在Eclip
+ * se和 AndroidStudio都搜索不到呢，是因为正常搜索的搜的是本项目目录下的文件，正确的方法如下：
+ * 双击shift调出类搜索框，需要勾选Include non-project items条目，勾选了以后才会把android所有非隐藏类都包含进来。
+ * ————————————————
+ *
+ *                             版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
+ *
+ * 原文链接：https://blog.csdn.net/KwunYamShan/article/details/122359973
  */
 class TestActivity: AppCompatActivity() {
 
