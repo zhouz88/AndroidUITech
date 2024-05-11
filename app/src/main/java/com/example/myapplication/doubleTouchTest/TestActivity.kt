@@ -80,6 +80,8 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
  *                             版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
  *
  * 原文链接：https://blog.csdn.net/KwunYamShan/article/details/122359973
+ *
+ * 看源码 open /Users/zhouzheng/Library/Android/sdk/sources/android-34/android/app
  */
 class TestActivity: AppCompatActivity() {
 
