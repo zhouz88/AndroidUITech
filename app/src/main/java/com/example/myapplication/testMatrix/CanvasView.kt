@@ -10,6 +10,7 @@ import android.graphics.ColorFilter
 import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Paint.Style
 import android.graphics.Path
 import android.graphics.PixelFormat
@@ -95,7 +96,7 @@ class CanvasView @JvmOverloads constructor(
             testPolyToPoly(canvas)
             return
         }
-        if (true) {
+        if (false) {
             testRectToRect(canvas)
             return
         }
@@ -265,7 +266,7 @@ class CanvasView @JvmOverloads constructor(
 
         val r = RectF(0f, 0f, 500f, 500f)
         val layerID = canvas.saveLayer(r, null)
-        canvas.drawColor( 0x1aff0000)
+        canvas.drawARGB( 0x1a,0xff, 0x00, 0x00)
         canvas.restoreToCount(layerID)
     }
 
@@ -616,6 +617,7 @@ class LightBgDrawable(val ringThickNess: Float, val circleColor: Int) : Drawable
             bounds.bottom - ringThickNess/2,  intArrayOf(0xFFFD00D8.toInt(), 0xFFFF4771.toInt(), 0xFFFFA403.toInt()), floatArrayOf(0f, 0.5f, 1f), Shader.TileMode.CLAMP)
         mShaderMatrix.reset()
         mPaint.apply {
+            flags = ANTI_ALIAS_FLAG
             strokeWidth = ringThickNess
             style = Paint.Style.STROKE
         }
