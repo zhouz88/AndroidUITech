@@ -38,6 +38,26 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
  * 4.onAttachedToWindow是先调用自己，然后调用儿子View的。onDetachedFromWindow是先调用儿子View的，然后再调用自己的。
 而activity 的onattachto window 在decorview 调用
  */
+/**
+ * setcontentview -> getwindow().setcontentvew() -> installdecor -> cb.onContentChanged()
+ * 然后 在 handleresumeactivity -> makesible
+ *         if (!mWindowAdded) {
+ *             ViewManager wm = getWindowManager();
+ *             wm.addView(mDecor, getWindow().getAttributes());
+ *             mWindowAdded = true;
+ *         }
+ *         mDecor.setVisibility(View.VISIBLE);
+ *         这里 addview 在WindowManagerGlobal 调用，创建viewrootimpl 会添加到
+ *              mViews.add(view);
+ *             mRoots.add(root);
+ *             mParams.add(wparams);
+ *             ...
+ *                     root.setView(view, wparams, panelParentView, userId);
+ *
+ *                     最后一步会requestlayout!!! 从而choreographer.postcallback
+ *
+ *
+ */
 class TestActivity: AppCompatActivity() {
 
     private lateinit var binding: TestMultiPointsTouchBinding
@@ -97,6 +117,11 @@ class TestActivity: AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         binding.root.removeCallbacks(callback)
+    }
+
+    override fun onContentChanged() {
+        super.onContentChanged()
+        //onContentChanged
     }
 
 
