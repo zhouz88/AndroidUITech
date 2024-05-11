@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.myapplication.doubleTouchTest.TestLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.example.myapplication.doubleTouchTest.TestView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+    </com.example.myapplication.doubleTouchTest.TestView>
+
+    <com.example.myapplication.doubleTouchTest.Test2View
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:background="#1A00ff00"
+        android:layout_height="0dp">
+    </com.example.myapplication.doubleTouchTest.Test2View>
+</com.example.myapplication.doubleTouchTest.TestLinearLayout>
