@@ -1,5 +1,6 @@
 package com.example.myapplication.doubleTouchTest
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
@@ -32,12 +33,15 @@ import com.example.myapplication.databinding.TestMultiPointsTouchBinding
  * WindowManagerImpl.removeViewImmediate->WindowManagerGlobal.removeView->
  * ViewRootImpl.die->ViewRootImpl.doDie->ViewRootImpl.dispatchDetachedFromWindow->
  * ViewGroup.dispatchDetachedFromWindow->View.dispatchDetachedFromWindow->onDetachedToWindow
+ * ->      destroyHardwareRenderer();
  *
  * 3.onAttachedToWindow和onDetachedFromWindow的调用与visibility无关。
  *
  * 4.onAttachedToWindow是先调用自己，然后调用儿子View的。onDetachedFromWindow是先调用儿子View的，然后再调用自己的。
 而activity 的onattachto window 在decorview 调用
  */
+
+//dialog绝大部分window机制和act一样
 /**
  * setcontentview -> getwindow().setcontentvew() -> installdecor -> cb.onContentChanged()
  * 然后 在 handleresumeactivity -> makesible
