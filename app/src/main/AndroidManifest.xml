@@ -59,6 +59,11 @@
         <activity android:name=".anim.TestAnimationCenter"
             android:exported="true"
             android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:name="com.example.myapplication.chapter10.Chapter10Act">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

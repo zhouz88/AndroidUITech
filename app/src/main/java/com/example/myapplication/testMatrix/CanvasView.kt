@@ -1,7 +1,9 @@
 package com.example.myapplication.testMatrix
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
 import android.graphics.BlurMaskFilter
 import android.graphics.Camera
 import android.graphics.Canvas
@@ -14,19 +16,20 @@ import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.graphics.Paint.Style
 import android.graphics.Path
 import android.graphics.PixelFormat
+import android.graphics.RadialGradient
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Region
 import android.graphics.RegionIterator
 import android.graphics.Shader
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.blankj.utilcode.util.SizeUtils
 import com.example.myapplication.R
-import java.lang.reflect.Type
 
 //canvas 线性或者平移旋转变换，本质就是操作Canvas类内部的 matrix, 每个matrix 其实是对一个点的变换。
 //比如在原始坐标先画个矩形，这个矩形内的点会按照平移变换
@@ -37,6 +40,7 @@ class CanvasView @JvmOverloads constructor(
 
     var drawing = true
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (!drawing) {
@@ -100,6 +104,14 @@ class CanvasView @JvmOverloads constructor(
             testRectToRect(canvas)
             return
         }
+        if (true) {
+            testBitmapShader(canvas)
+            return
+        }
+        if (false) {
+            testRadialGradient(canvas)
+            return
+        }
         val paint = Paint()
         val matrix = Matrix()
         val xiangji = Camera()
@@ -120,6 +132,57 @@ class CanvasView @JvmOverloads constructor(
         paint.color = Color.RED
         canvas.drawRect(rectF, paint)
         canvas.restore()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun testRadialGradient(canvas: Canvas) {
+        val paint = Paint().apply {
+            shader = RadialGradient(width/2f, height/2f, dpF(200f), intArrayOf(0xff00ff00.toInt(), 0xff0000ff.toInt(), 0xffff0000.toInt()),
+               floatArrayOf(0f,0.5f, 1f), Shader.TileMode.CLAMP)
+        }
+
+        //canvas.drawCircle(width/2f, height/2f, 200f, paint)
+        //val path = Path()
+        //path.addOval(RectF(width/2f - 400, height/2f - 400f, width/2 + 400f, height/2f + 400f), Path.Direction.CW)
+
+        //canvas.drawPath(path, paint)
+        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
+    }
+
+    private fun testBitmapShader(canvas: Canvas) {
+        val options = BitmapFactory.Options()
+//        options.outHeight = dp(100f)
+//        options.outWidth = dp(100f)
+        options.inSampleSize = 1
+        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.item5, options)
+
+        val paint = Paint().apply {
+            shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        }
+
+        val newBitmap: Bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val array = IntArray(newBitmap.width * newBitmap.height)
+        newBitmap.getPixels(array, 0,newBitmap.width,0,0, newBitmap.width, newBitmap.height)
+        //val c
+        //这里 bitmap 作为shader啦
+        Log.d("zhouzheng", "bitmap w${bitmap.width}")
+        val path = Path()
+        path.addOval(RectF(100f,100f, 500f, 500f), Path.Direction.CW)
+        val matrix = Matrix()
+        //matrix.preTranslate(-bitmap.width.toFloat()/3, bitmap.height.toFloat())
+        //matrix.preTranslate(-bitmap.width.toFloat(), -bitmap.height.toFloat())
+        //matrix.setRotate(0f,bitmap.width.toFloat()/2,bitmap.height.toFloat()/2)
+       // matrix.postTranslate(bitmap.width.toFloat(), bitmap.height.toFloat())
+        paint.shader.setLocalMatrix(matrix)
+//        canvas.drawPath(path, paint)
+//        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
+//        //matrix.setRotate(45f,bitmap.width.toFloat()/2,bitmap.height.toFloat()/2)
+//        paint.shader.setLocalMatrix(matrix)
+        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
+        val m = Matrix()
+        m.preTranslate(0f, 0.5f*bitmap.height.toFloat())
+        paint.shader.setLocalMatrix(m)
+        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
     }
 
     private fun testPolyToPoly(canvas: Canvas) {

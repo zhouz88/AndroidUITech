@@ -3,6 +3,7 @@ package com.example.myapplication.anim
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.util.AttributeSet
@@ -28,6 +29,47 @@ class TestAnimationCenter: AppCompatActivity() {
             PropertyValuesHolder.ofFloat("translationY", -SizeUtils.dp2px(400f).toFloat(), 0f))
             .setDuration(5000)
             .start()
+
+        binding.root.postDelayed({
+            view2Bitmap(binding.root)
+        }, 3000)
+    }
+
+    fun view2Bitmap(view: View?): Bitmap? {
+        if (view == null) return null
+        val drawingCacheEnabled = view.isDrawingCacheEnabled
+        val willNotCacheDrawing = view.willNotCacheDrawing()
+        view.isDrawingCacheEnabled = true
+        view.setWillNotCacheDrawing(false)
+        var drawingCache = view.drawingCache
+        val bitmap: Bitmap
+        if (null == drawingCache || drawingCache.isRecycled) {
+            view.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            Log.d("zhouzheng", "跑这了${view.measuredHeight}")
+            view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+            view.buildDrawingCache()
+            drawingCache = view.drawingCache
+            if (null == drawingCache || drawingCache.isRecycled) {
+                bitmap = Bitmap.createBitmap(
+                    view.measuredWidth,
+                    view.measuredHeight,
+                    Bitmap.Config.RGB_565
+                )
+                val canvas = Canvas(bitmap)
+                view.draw(canvas)
+            } else {
+                bitmap = Bitmap.createBitmap(drawingCache)
+            }
+        } else {
+            Log.d("zhouzheng", "跑这了2")
+            bitmap = Bitmap.createBitmap(drawingCache)
+        }
+        view.setWillNotCacheDrawing(willNotCacheDrawing)
+        view.isDrawingCacheEnabled = drawingCacheEnabled
+        return bitmap
     }
 }
 
