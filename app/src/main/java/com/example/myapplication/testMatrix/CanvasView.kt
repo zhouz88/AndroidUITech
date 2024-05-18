@@ -709,7 +709,7 @@ class CanvasView @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
         drawable.finalRect = RectF(0f,0f, width.toFloat(), height.toFloat())
-        drawable.bounds = Rect(0,0,0,0) //important!!!
+        drawable.bounds = Rect(0,0,width,height) //important!!!
         Log.d("zhouzheng", "nana")
         drawable.init()
     }
@@ -748,7 +748,6 @@ class CanvasView @JvmOverloads constructor(
                 valueAnimator?.addUpdateListener(listener)
                 valueAnimator?.duration = 3000
                 valueAnimator?.start()
-                invalidateSelf()
         }
 
         fun calculateCenterDistance(rate: Float): FloatArray {
