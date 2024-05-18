@@ -49,7 +49,7 @@ class CanvasView @JvmOverloads constructor(
         if (!drawing) {
             return
         }
-        canvas.save()
+       // canvas.save()
         val rectF = RectF(0f, 0f, 400f, 400f)
         if (false) {
             test1(canvas)
@@ -701,18 +701,40 @@ class CanvasView @JvmOverloads constructor(
 
     val drawable = ZZTransitionDrawable()
     init {
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
         drawable.callback = this
+        drawable.initialRect = RectF(dpF(100f), dpF(100f), dpF(200f), dpF(200F))
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        drawable.finalRect = RectF(0f,0f, width.toFloat(), height.toFloat())
+        drawable.bounds = Rect(0,0,0,0) //important!!!
+        Log.d("zhouzheng", "nana")
         drawable.init()
+    }
+
+    override fun verifyDrawable(who: Drawable): Boolean {
+        return super.verifyDrawable(who) || who == drawable
     }
 
     inner class ZZTransitionDrawable: Drawable() {
 
-        private var valueAnimator = ValueAnimator()
+        private var valueAnimator : ValueAnimator? = null
         private val listener = ValueAnimator.AnimatorUpdateListener {
+            Log.d("zhouzheng", "value$bounds$scrollX$scrollY")
             invalidateSelf()
+
+        }
+        val path = Path().apply {
+            //addRoundRect(currentRectF, dpF(20f), dpF(20f), Path.Direction.CW)
         }
         private val ma= Matrix()
-        private val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.item2)
+        private val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.item2,
+            BitmapFactory.Options().apply {
+                inSampleSize = 3
+            }
+        )
         var initialRect : RectF? = null
             set(value) {
                 field = value
@@ -722,10 +744,11 @@ class CanvasView @JvmOverloads constructor(
                 field = value
             }
         fun init() {
-            valueAnimator.addUpdateListener(listener)
-            valueAnimator.duration = 3000
-            valueAnimator.setFloatValues(0f, 1f)
-            valueAnimator.start()
+                valueAnimator = ValueAnimator.ofFloat(0f,1f)
+                valueAnimator?.addUpdateListener(listener)
+                valueAnimator?.duration = 3000
+                valueAnimator?.start()
+                invalidateSelf()
         }
 
         fun calculateCenterDistance(rate: Float): FloatArray {
@@ -747,20 +770,26 @@ class CanvasView @JvmOverloads constructor(
         override fun draw(canvas: Canvas) {
             canvas.save()
             ma.reset()
-            val rate = valueAnimator.animatedValue as Float
+            //Log.d("zhouzheng draw", "${valueAnimator!!.animatedValue as Float}")
+            val rate = if (valueAnimator == null) 0f else valueAnimator!!.animatedValue as Float
             val centerNow = calculateCenterDistance(rate)
             val widhtHeightNow = calculateWithHeightRatio(rate)
             val currentRectF = RectF(centerNow[0] - widhtHeightNow[0]/2,
                 centerNow[1] - widhtHeightNow[1]/2, centerNow[0] + widhtHeightNow[0]/2,
                 centerNow[1] + widhtHeightNow[1]/2)
-            val path = Path().apply {
-                addRoundRect(currentRectF, dpF(5f), dpF(5f), Path.Direction.CW)
+
+            Log.d("zhouzheng drawl", currentRectF.toShortString())
+            path.apply {
+                reset()
+                addRoundRect(currentRectF, dpF(20f), dpF(20f), Path.Direction.CW)
             }
             canvas.clipPath(path)
             ma.setRectToRect(RectF(0f,0f,bitmap.width.toFloat(), bitmap.height.toFloat()),
-                currentRectF, Matrix.ScaleToFit.CENTER)
+                currentRectF, Matrix.ScaleToFit.FILL)
+            canvas.setMatrix(ma)
+            canvas.drawColor(0x3300ff00)
 
-            canvas.drawBitmap(bitmap, ma, null)
+            canvas.drawBitmap(bitmap, Matrix(), null)
             canvas.restore()
         }
 
