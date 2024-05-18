@@ -14,9 +14,11 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import com.blankj.utilcode.util.ScreenUtils
 import com.example.myapplication.R
 
 class TelescopeView @JvmOverloads constructor(

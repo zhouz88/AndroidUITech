@@ -67,6 +67,7 @@ public class Folder extends View {
         for (int i = 0; i < sFoldsNum; i++) {
             //表示第几个模块，i==0时，表示第一个模块
             boolean isEven = i % 2 == 0;
+            
 
             int sLeft = mFoldWidth * i;
             int sRight = mFoldWidth * (i + 1);

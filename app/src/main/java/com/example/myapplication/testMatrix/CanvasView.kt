@@ -1,6 +1,9 @@
 package com.example.myapplication.testMatrix
 
+import android.animation.ValueAnimator
+import android.app.Application
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.BitmapShader
@@ -104,12 +107,16 @@ class CanvasView @JvmOverloads constructor(
             testRectToRect(canvas)
             return
         }
-        if (true) {
+        if (false) {
             testBitmapShader(canvas)
             return
         }
         if (false) {
             testRadialGradient(canvas)
+            return
+        }
+        if (true) {
+            drawable.draw(canvas)
             return
         }
         val paint = Paint()
@@ -121,7 +128,7 @@ class CanvasView @JvmOverloads constructor(
         xiangji.getMatrix(matrix)
         xiangji.restore()
         Log.d("zhouzheng b", matrix.toShortString())
-        matrix.postTranslate(width/2f, height/2f)
+        matrix.postTranslate(width / 2f, height / 2f)
         Log.d("zhouzheng a", matrix.toShortString())
         canvas.concat(matrix)  //这个狠！ 坐标跟着都平移了
         paint.color = 0x33000000
@@ -137,8 +144,14 @@ class CanvasView @JvmOverloads constructor(
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun testRadialGradient(canvas: Canvas) {
         val paint = Paint().apply {
-            shader = RadialGradient(width/2f, height/2f, dpF(200f), intArrayOf(0xff00ff00.toInt(), 0xff0000ff.toInt(), 0xffff0000.toInt()),
-               floatArrayOf(0f,0.5f, 1f), Shader.TileMode.CLAMP)
+            shader = RadialGradient(
+                width / 2f,
+                height / 2f,
+                dpF(200f),
+                intArrayOf(0xff00ff00.toInt(), 0xff0000ff.toInt(), 0xffff0000.toInt()),
+                floatArrayOf(0f, 0.5f, 1f),
+                Shader.TileMode.CLAMP
+            )
         }
 
         //canvas.drawCircle(width/2f, height/2f, 200f, paint)
@@ -146,7 +159,7 @@ class CanvasView @JvmOverloads constructor(
         //path.addOval(RectF(width/2f - 400, height/2f - 400f, width/2 + 400f, height/2f + 400f), Path.Direction.CW)
 
         //canvas.drawPath(path, paint)
-        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     }
 
     private fun testBitmapShader(canvas: Canvas) {
@@ -162,27 +175,27 @@ class CanvasView @JvmOverloads constructor(
 
         val newBitmap: Bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         val array = IntArray(newBitmap.width * newBitmap.height)
-        newBitmap.getPixels(array, 0,newBitmap.width,0,0, newBitmap.width, newBitmap.height)
+        newBitmap.getPixels(array, 0, newBitmap.width, 0, 0, newBitmap.width, newBitmap.height)
         //val c
         //这里 bitmap 作为shader啦
         Log.d("zhouzheng", "bitmap w${bitmap.width}")
         val path = Path()
-        path.addOval(RectF(100f,100f, 500f, 500f), Path.Direction.CW)
+        path.addOval(RectF(100f, 100f, 500f, 500f), Path.Direction.CW)
         val matrix = Matrix()
         //matrix.preTranslate(-bitmap.width.toFloat()/3, bitmap.height.toFloat())
         //matrix.preTranslate(-bitmap.width.toFloat(), -bitmap.height.toFloat())
         //matrix.setRotate(0f,bitmap.width.toFloat()/2,bitmap.height.toFloat()/2)
-       // matrix.postTranslate(bitmap.width.toFloat(), bitmap.height.toFloat())
+        // matrix.postTranslate(bitmap.width.toFloat(), bitmap.height.toFloat())
         paint.shader.setLocalMatrix(matrix)
 //        canvas.drawPath(path, paint)
 //        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
 //        //matrix.setRotate(45f,bitmap.width.toFloat()/2,bitmap.height.toFloat()/2)
 //        paint.shader.setLocalMatrix(matrix)
-        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
         val m = Matrix()
-        m.preTranslate(0f, 0.5f*bitmap.height.toFloat())
+        m.preTranslate(0f, 0.5f * bitmap.height.toFloat())
         paint.shader.setLocalMatrix(m)
-        canvas.drawRect(0f,0f, width.toFloat(), height.toFloat(), paint)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     }
 
     private fun testPolyToPoly(canvas: Canvas) {
@@ -229,7 +242,7 @@ class CanvasView @JvmOverloads constructor(
         path.close()
         canvas.drawPath(path, redGreen)
 
-        m.setPolyToPoly(rect0,0, rect1, 0, 4)
+        m.setPolyToPoly(rect0, 0, rect1, 0, 4)
 
         val f = rect0.clone()
         m.mapPoints(f)
@@ -242,14 +255,14 @@ class CanvasView @JvmOverloads constructor(
         canvas.drawPath(path, blue)
 
         canvas.setMatrix(m)
-        canvas.drawRect(Rect(244, 100,300,700), Paint().apply {
+        canvas.drawRect(Rect(244, 100, 300, 700), Paint().apply {
             style = Style.STROKE
             color = 0xff000000.toInt()
             strokeWidth = dpF(3f)
         })
 
 
-        val f1 = RectF(50f,50f,200f,500f)
+        val f1 = RectF(50f, 50f, 200f, 500f)
         val path1 = Path()
         path.addOval(f1, Path.Direction.CW)
 
@@ -265,7 +278,7 @@ class CanvasView @JvmOverloads constructor(
     private fun testRectToRect(canvas: Canvas) {
         val m = Matrix()
         canvas.save()
-        val bitmap = BitmapFactory.decodeResource(resources,  R.mipmap.item2)
+        val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.item2)
         val rectF1 = RectF(0f, 0f, 300f, 400f)
 
         val rectF2 = RectF(0f, 0f, width.toFloat(), height.toFloat())
@@ -274,7 +287,7 @@ class CanvasView @JvmOverloads constructor(
 
         canvas.concat(m)
         canvas.drawBitmap(bitmap, Matrix(), null)
-        canvas.drawRect(100f, 100f, 1000f, 2000f, Paint().apply{
+        canvas.drawRect(100f, 100f, 1000f, 2000f, Paint().apply {
             style = Style.STROKE
             color = 0xff000000.toInt()
             strokeWidth = dpF(4f)
@@ -284,7 +297,7 @@ class CanvasView @JvmOverloads constructor(
         //投射前
         canvas.clipRect(rectF1)
         canvas.drawBitmap(bitmap, Matrix(), null)
-        canvas.drawRect(100f, 100f, 1000f, 2000f, Paint().apply{
+        canvas.drawRect(100f, 100f, 1000f, 2000f, Paint().apply {
             style = Style.STROKE
             color = 0xff000000.toInt()
             strokeWidth = dpF(4f)
@@ -293,21 +306,21 @@ class CanvasView @JvmOverloads constructor(
 
     private fun test10(canvas: Canvas) {
         canvas.save()
-        val rect = RectF(0f,0f,300f,200f)
+        val rect = RectF(0f, 0f, 300f, 200f)
         val m = Matrix()
-        m.preTranslate(width/2f, height/2f)
+        m.preTranslate(width / 2f, height / 2f)
         canvas.setMatrix(m)
         val paint = Paint().apply {
             color = Color.BLACK
         }
         canvas.drawRect(rect, paint)
         val m2 = Matrix()
-        m2.setSinCos(1f,0f)
+        m2.setSinCos(1f, 0f)
         m.preConcat(m2)
         canvas.setMatrix(m)
         paint.setColor(Color.RED)
         canvas.drawRect(rect, paint)
-        canvas.drawCircle(0f,0f,5f, paint)
+        canvas.drawCircle(0f, 0f, 5f, paint)
         canvas.restore()
     }
 
@@ -315,27 +328,27 @@ class CanvasView @JvmOverloads constructor(
         //canvas.save()
         val paint = Paint()
         val rectF = RectF(0f, 0f, 400f, 400f)
-        canvas.translate(width/2f, height/2f) //并没平移坐标
+        canvas.translate(width / 2f, height / 2f) //并没平移坐标
         paint.color = 0x3300ff00
         canvas.drawRect(rectF, paint)
 
         //canvas.restore()
         val matrix = Matrix()
         matrix.postScale(0.5f, 0.5f, 400f, 400f)
-       // canvas.scale(0.5f, 0.5f, 400f, 400f)
+        // canvas.scale(0.5f, 0.5f, 400f, 400f)
         canvas.concat(matrix)
         paint.color = Color.RED
         canvas.drawRect(rectF, paint)
 
         val r = RectF(0f, 0f, 500f, 500f)
         val layerID = canvas.saveLayer(r, null)
-        canvas.drawARGB( 0x1a,0xff, 0x00, 0x00)
+        canvas.drawARGB(0x1a, 0xff, 0x00, 0x00)
         canvas.restoreToCount(layerID)
     }
 
     private fun test2(canvas: Canvas) {
         val rectF = RectF(0f, 0f, 400f, 400f)
-        canvas.translate(width/2f, height/2f) //并没平移坐标
+        canvas.translate(width / 2f, height / 2f) //并没平移坐标
         val paint = Paint()
         paint.color = 0x3300ff00
         canvas.drawRect(rectF, paint)
@@ -351,22 +364,22 @@ class CanvasView @JvmOverloads constructor(
         val r = RectF(0f, 0f, 500f, 500f)
         // val layerID = canvas.saveLayer(r, null)
         canvas.clipRect(r)
-        canvas.drawColor( 0x1aff0000)
+        canvas.drawColor(0x1aff0000)
         //canvas.restoreToCount(layerID)
     }
 
-    private fun testRegion(canvas: Canvas) : Boolean{
+    private fun testRegion(canvas: Canvas): Boolean {
         val p = Paint()
         val paint = Paint()
         p.style = Paint.Style.FILL
         paint.color = Color.RED
 
-        val f = Rect(50,50,200,100)
+        val f = Rect(50, 50, 200, 100)
         val region = Region(f)
 
         val regionIterator = RegionIterator(region)
         val re = Rect()
-        while(regionIterator.next(re)) {
+        while (regionIterator.next(re)) {
             canvas.drawRect(re, paint)
         }
 
@@ -375,19 +388,19 @@ class CanvasView @JvmOverloads constructor(
         return true
     }
 
-    private fun testRegion2(canvas: Canvas) : Boolean{
+    private fun testRegion2(canvas: Canvas): Boolean {
         canvas.drawColor(Color.WHITE)
         val p = Paint()
         //p.style = Paint.Style.STROKE
         p.color = Color.RED
-      //  p.strokeWidth = 5f
+        //  p.strokeWidth = 5f
 
-        val f = RectF(50f,50f,200f,500f)
+        val f = RectF(50f, 50f, 200f, 500f)
         val path = Path()
         path.addOval(f, Path.Direction.CW)
 
         val region = Region()
-        region.setPath(path, Region(50,50,200,200))
+        region.setPath(path, Region(50, 50, 200, 200))
 
         //canvas.drawPath(path, p)
         canvas.drawRegion(region, p)
@@ -397,7 +410,7 @@ class CanvasView @JvmOverloads constructor(
         return true
     }
 
-    private fun testRegion3(canvas: Canvas) : Boolean{
+    private fun testRegion3(canvas: Canvas): Boolean {
         canvas.drawColor(Color.WHITE)
 
         val rect1 = Rect(100, 100, 400, 200)
@@ -438,14 +451,14 @@ class CanvasView @JvmOverloads constructor(
         canvas.save()
         val paint = Paint()
         //只有STROKE 或者STROKE_FILL 才会激活STROKEWIDTH
-        canvas.translate(width/2 - 200f, 100f)
+        canvas.translate(width / 2 - 200f, 100f)
         paint.apply {
             style = Paint.Style.STROKE
             strokeWidth = 100f
             paint.color = 0xff00ff00.toInt()
         }
         val path = Path()
-        path.addOval(RectF(0f, 0f, 400f, 400f) , Path.Direction.CCW)
+        path.addOval(RectF(0f, 0f, 400f, 400f), Path.Direction.CCW)
         canvas.drawPath(path, paint)
 
         canvas.translate(0f, 500f)
@@ -455,7 +468,7 @@ class CanvasView @JvmOverloads constructor(
             strokeWidth = 100f
             paint.color = 0xff0000ff.toInt()
         }
-        canvas.drawPath(path,paint)
+        canvas.drawPath(path, paint)
         canvas.translate(0f, 500f)
         paint.apply {
             style = Paint.Style.FILL
@@ -470,22 +483,22 @@ class CanvasView @JvmOverloads constructor(
             strokeWidth = dp(1f).toFloat()
             style = Paint.Style.STROKE
         }
-        var left = width/2f - 250
-        canvas.drawLine(left,0f,left,height.toFloat(),paint)
-        left = width/2f - 150
+        var left = width / 2f - 250
+        canvas.drawLine(left, 0f, left, height.toFloat(), paint)
+        left = width / 2f - 150
         paint.apply {
             color = 0xff000000.toInt()
             strokeWidth = dp(1f).toFloat()
             style = Paint.Style.FILL_AND_STROKE
         }
-        canvas.drawLine(left,0f,left,height.toFloat(),paint)
-        left = width/2f - 200
+        canvas.drawLine(left, 0f, left, height.toFloat(), paint)
+        left = width / 2f - 200
         paint.apply {
             color = 0xff000000.toInt()
             strokeWidth = dp(1f).toFloat()
             style = Paint.Style.FILL
         }
-        canvas.drawLine(left,0f,left,height.toFloat(),paint)
+        canvas.drawLine(left, 0f, left, height.toFloat(), paint)
     }
 
 
@@ -494,14 +507,14 @@ class CanvasView @JvmOverloads constructor(
         canvas.save()
         val paint = Paint()
         //只有STROKE 或者STROKE_FILL 才会激活STROKEWIDTH
-        canvas.translate(width/2 - 200f, 100f)
+        canvas.translate(width / 2 - 200f, 100f)
         paint.apply {
             style = Paint.Style.STROKE
             strokeWidth = 100f
             paint.color = 0xff00ff00.toInt()
         }
         val path = Path()
-        path.addRect(RectF(0f, 0f, 400f, 400f) , Path.Direction.CCW)
+        path.addRect(RectF(0f, 0f, 400f, 400f), Path.Direction.CCW)
         canvas.drawPath(path, paint)
 
         canvas.translate(0f, 500f)
@@ -511,7 +524,7 @@ class CanvasView @JvmOverloads constructor(
             strokeWidth = 100f
             paint.color = 0xff0000ff.toInt()
         }
-        canvas.drawPath(path,paint)
+        canvas.drawPath(path, paint)
         canvas.translate(0f, 500f)
         paint.apply {
             style = Paint.Style.FILL
@@ -526,29 +539,29 @@ class CanvasView @JvmOverloads constructor(
             strokeWidth = dp(1f).toFloat()
             style = Paint.Style.STROKE
         }
-        var left = width/2f - 250
-        canvas.drawLine(left,0f,left,height.toFloat(),paint)
-        left = width/2f - 150
+        var left = width / 2f - 250
+        canvas.drawLine(left, 0f, left, height.toFloat(), paint)
+        left = width / 2f - 150
         paint.apply {
             color = 0xff000000.toInt()
             strokeWidth = dp(1f).toFloat()
             style = Paint.Style.FILL_AND_STROKE
         }
-        canvas.drawLine(left,0f,left,height.toFloat(),paint)
-        left = width/2f - 200
+        canvas.drawLine(left, 0f, left, height.toFloat(), paint)
+        left = width / 2f - 200
         paint.apply {
             color = 0xff000000.toInt()
             strokeWidth = dp(1f).toFloat()
             style = Paint.Style.FILL
         }
-        canvas.drawLine(left,0f,left,height.toFloat(),paint)
+        canvas.drawLine(left, 0f, left, height.toFloat(), paint)
     }
 
     private fun testPath(canvas: Canvas) {
         val path = Path()
-        path.moveTo(width/2f, 200f)
-        path.lineTo(width/2f + 300f, 200f + 300)
-        path.lineTo(width/2f, 200f + 300)
+        path.moveTo(width / 2f, 200f)
+        path.lineTo(width / 2f + 300f, 200f + 300)
+        path.lineTo(width / 2f, 200f + 300)
         path.close()
         val paint = Paint().apply {
             style = Paint.Style.FILL
@@ -558,9 +571,9 @@ class CanvasView @JvmOverloads constructor(
         canvas.drawPath(path, paint)
 
         val path2 = Path()
-        path2.moveTo(width/2f, 600f)
-        path2.lineTo(width/2f + 300f, 600f + 300)
-        path2.lineTo(width/2f, 600f + 300)
+        path2.moveTo(width / 2f, 600f)
+        path2.lineTo(width / 2f + 300f, 600f + 300)
+        path2.lineTo(width / 2f, 600f + 300)
         path2.close()
         paint.apply {
             style = Paint.Style.FILL_AND_STROKE
@@ -570,9 +583,9 @@ class CanvasView @JvmOverloads constructor(
         canvas.drawPath(path2, paint)
 
         val path3 = Path()
-        path3.moveTo(width/2f, 1000f)
-        path3.lineTo(width/2f + 300f, 1000f + 300)
-        path3.lineTo(width/2f, 1000f + 300)
+        path3.moveTo(width / 2f, 1000f)
+        path3.lineTo(width / 2f + 300f, 1000f + 300)
+        path3.lineTo(width / 2f, 1000f + 300)
         path3.close()
         paint.apply {
             style = Paint.Style.STROKE
@@ -580,25 +593,35 @@ class CanvasView @JvmOverloads constructor(
             strokeWidth = dpF(20f)
         }
         canvas.drawPath(path3, paint)
-        canvas.drawLine(width/2f, 0f, width/2f,height.toFloat(),paint.apply {
+        canvas.drawLine(width / 2f, 0f, width / 2f, height.toFloat(), paint.apply {
             strokeWidth = dpF(1f)
             color = 0xff000000.toInt()
         })
-        canvas.drawLine(width/2f - dpF(10f), 0f, width/2f- dpF(10f),height.toFloat(),paint.apply {
-            strokeWidth = dpF(1f)
-            color = 0xff000000.toInt()
-        })
-        canvas.drawLine(width/2f + dpF(10f), 0f, width/2f + dpF(10f),height.toFloat(),paint.apply {
-            strokeWidth = dpF(1f)
-            color = 0xff000000.toInt()
-        })
+        canvas.drawLine(
+            width / 2f - dpF(10f),
+            0f,
+            width / 2f - dpF(10f),
+            height.toFloat(),
+            paint.apply {
+                strokeWidth = dpF(1f)
+                color = 0xff000000.toInt()
+            })
+        canvas.drawLine(
+            width / 2f + dpF(10f),
+            0f,
+            width / 2f + dpF(10f),
+            height.toFloat(),
+            paint.apply {
+                strokeWidth = dpF(1f)
+                color = 0xff000000.toInt()
+            })
 
         paint.apply {
             strokeWidth = dpF(20f)
             color = 0xff00ff00.toInt()
         }
-        canvas.drawLine(width/2f, 1400f, width/2f + 300f, 1400f + 300f, paint)
-        canvas.drawLine(width/2f + 300F, 1400f + 300f, width/2f, 1400f + 300f, paint)
+        canvas.drawLine(width / 2f, 1400f, width / 2f + 300f, 1400f + 300f, paint)
+        canvas.drawLine(width / 2f + 300F, 1400f + 300f, width / 2f, 1400f + 300f, paint)
     }
 
     override fun onFinishInflate() {
@@ -624,7 +647,12 @@ class CanvasView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeWidth = dpF(10f)
         }
-        canvas.drawBitmap(bitmap, null, RectF(100f, 100f, 600f, 600f), paint) //paint 这里可以认为无效 除非用ColorFilter
+        canvas.drawBitmap(
+            bitmap,
+            null,
+            RectF(100f, 100f, 600f, 600f),
+            paint
+        ) //paint 这里可以认为无效 除非用ColorFilter
         canvas.restore()
 
     }
@@ -636,7 +664,7 @@ class CanvasView @JvmOverloads constructor(
 
     private fun shader(canvas: Canvas) {
         canvas.drawColor(0x3300ff00)
-        val rect = Rect(0,0,dp(90f), dp(90f))
+        val rect = Rect(0, 0, dp(90f), dp(90f))
         rect.offset(dp(30f), dp(30f))
         val lightBgDrawable = LightBgDrawable(dpF(10F), 0xffffffff.toInt()).apply {
             bounds = rect
@@ -645,25 +673,109 @@ class CanvasView @JvmOverloads constructor(
         lightBgDrawable.draw(canvas = canvas)
 
 
-        val rect2 = Rect(dp(30f),500,dp(90f)+dp(30f), dp(90f)+500)
+        val rect2 = Rect(dp(30f), 500, dp(90f) + dp(30f), dp(90f) + 500)
         val lightBgDrawable2 = LightBgDrawable2(dpF(10F), 0xffffffff.toInt()).apply {
             bounds = rect2
         }
         lightBgDrawable2.draw(canvas = canvas)
 
-        canvas.drawLine(dp(30f)  + dpF(10f),0f,dp(30f)  + dpF(10f) , height.toFloat(), Paint().apply{
-            strokeWidth = dpF(1f)
-            color = Color.BLACK
-        })
+        canvas.drawLine(
+            dp(30f) + dpF(10f),
+            0f,
+            dp(30f) + dpF(10f),
+            height.toFloat(),
+            Paint().apply {
+                strokeWidth = dpF(1f)
+                color = Color.BLACK
+            })
 
-        canvas.drawLine(dp(30f)  + dpF(5f),0f,dp(30f)  + dpF(5f) , height.toFloat(), Paint().apply{
+        canvas.drawLine(dp(30f) + dpF(5f), 0f, dp(30f) + dpF(5f), height.toFloat(), Paint().apply {
             strokeWidth = dpF(1f)
             color = Color.BLACK
         })
-        canvas.drawLine(dpF(30f),0f,dpF(30f) , height.toFloat(), Paint().apply{
+        canvas.drawLine(dpF(30f), 0f, dpF(30f), height.toFloat(), Paint().apply {
             strokeWidth = dpF(1f)
             color = Color.BLACK
         })
+    }
+
+    val drawable = ZZTransitionDrawable()
+    init {
+        drawable.callback = this
+        drawable.init()
+    }
+
+    inner class ZZTransitionDrawable: Drawable() {
+
+        private var valueAnimator = ValueAnimator()
+        private val listener = ValueAnimator.AnimatorUpdateListener {
+            invalidateSelf()
+        }
+        private val ma= Matrix()
+        private val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.item2)
+        var initialRect : RectF? = null
+            set(value) {
+                field = value
+            }
+        var finalRect: RectF? = null
+            set(value) {
+                field = value
+            }
+        fun init() {
+            valueAnimator.addUpdateListener(listener)
+            valueAnimator.duration = 3000
+            valueAnimator.setFloatValues(0f, 1f)
+            valueAnimator.start()
+        }
+
+        fun calculateCenterDistance(rate: Float): FloatArray {
+            val distanceX = ((finalRect?.left ?: 0f) + (finalRect?.right ?: 0f))/2f - ((initialRect?.left ?: 0f) + (initialRect?.right ?: 0f))/2f
+            val distanceY = ((finalRect?.top ?: 0f) + (finalRect?.bottom ?: 0f))/2f- ((initialRect?.top ?: 0f) + (initialRect?.bottom ?: 0f))/2f
+
+            return floatArrayOf((distanceX * rate + ((initialRect?.left ?: 0f) + (initialRect?.right ?: 0f))/2f)  ,
+                (distanceY * rate +  ((initialRect?.top ?: 0f) + (initialRect?.bottom ?: 0f))/2f))
+        }
+
+        fun calculateWithHeightRatio(rate: Float): FloatArray {
+            val distanceX = ((finalRect?.right ?: 0f) - (finalRect?.left ?: 0f)) - ((initialRect?.right ?: 0f) - (initialRect?.left ?: 0f))
+            val distanceY = ((finalRect?.bottom ?: 0f) - (finalRect?.top ?: 0f))- ((initialRect?.bottom ?: 0f) - (initialRect?.top ?: 0f))
+
+            return floatArrayOf((distanceX * rate + (initialRect?.right ?: 0f) - (initialRect?.left ?: 0f))  ,
+                distanceY * rate +  ((initialRect?.bottom ?: 0f) - (initialRect?.top ?: 0f)))
+        }
+
+        override fun draw(canvas: Canvas) {
+            canvas.save()
+            ma.reset()
+            val rate = valueAnimator.animatedValue as Float
+            val centerNow = calculateCenterDistance(rate)
+            val widhtHeightNow = calculateWithHeightRatio(rate)
+            val currentRectF = RectF(centerNow[0] - widhtHeightNow[0]/2,
+                centerNow[1] - widhtHeightNow[1]/2, centerNow[0] + widhtHeightNow[0]/2,
+                centerNow[1] + widhtHeightNow[1]/2)
+            val path = Path().apply {
+                addRoundRect(currentRectF, dpF(5f), dpF(5f), Path.Direction.CW)
+            }
+            canvas.clipPath(path)
+            ma.setRectToRect(RectF(0f,0f,bitmap.width.toFloat(), bitmap.height.toFloat()),
+                currentRectF, Matrix.ScaleToFit.CENTER)
+
+            canvas.drawBitmap(bitmap, ma, null)
+            canvas.restore()
+        }
+
+        override fun setAlpha(alpha: Int) {
+
+        }
+
+        override fun setColorFilter(colorFilter: ColorFilter?) {
+
+        }
+
+        override fun getOpacity(): Int {
+            return PixelFormat.TRANSLUCENT
+        }
+
     }
 }
 
