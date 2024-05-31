@@ -39,8 +39,7 @@ public class LearningApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        TraceCompat.beginSection("");
-        initStrictMode();
+        androidx.tracing.Trace.beginSection("appOncreateSystrace");
 //        // traceview 的使用方式:
 //        if (BuildConfig.DEBUG) {
 //            Debug.startMethodTracing("App");
@@ -61,6 +60,8 @@ public class LearningApp extends Application {
 //        if (BuildConfig.DEBUG) {
 //            Debug.stopMethodTracing();
 //        }
+
+        androidx.tracing.Trace.endSection();
     }
 
     @Override
