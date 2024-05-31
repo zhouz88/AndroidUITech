@@ -25,6 +25,9 @@ android {
             )
         }
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.8"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,9 +37,12 @@ android {
     }
 
     buildFeatures {
+        compose true
         viewBinding true
     }
 }
+
+apply from: './compose.gradle'
 
 dependencies {
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'

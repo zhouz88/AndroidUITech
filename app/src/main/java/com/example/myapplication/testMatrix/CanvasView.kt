@@ -111,11 +111,11 @@ class CanvasView @JvmOverloads constructor(
             testBitmapShader(canvas)
             return
         }
-        if (false) {
+        if (true) {
             testRadialGradient(canvas)
             return
         }
-        if (true) {
+        if (false) {
             drawable.draw(canvas)
             return
         }
@@ -701,7 +701,6 @@ class CanvasView @JvmOverloads constructor(
 
     val drawable = ZZTransitionDrawable()
     init {
-        setLayerType(LAYER_TYPE_SOFTWARE, null)
         drawable.callback = this
         drawable.initialRect = RectF(dpF(100f), dpF(100f), dpF(200f), dpF(200F))
     }
@@ -785,10 +784,9 @@ class CanvasView @JvmOverloads constructor(
             canvas.clipPath(path)
             ma.setRectToRect(RectF(0f,0f,bitmap.width.toFloat(), bitmap.height.toFloat()),
                 currentRectF, Matrix.ScaleToFit.FILL)
-            canvas.setMatrix(ma)
             canvas.drawColor(0x3300ff00)
 
-            canvas.drawBitmap(bitmap, Matrix(), null)
+            canvas.drawBitmap(bitmap, ma, null)
             canvas.restore()
         }
 

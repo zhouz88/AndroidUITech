@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.blankj.utilcode.util.SizeUtils;
+import com.example.myapplication.utils.LaunchTimer;
 
 public class SlideQQActivity extends AppCompatActivity {
     private SlideMenuGroup mSlideMenuGroup;

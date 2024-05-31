@@ -4,12 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnPreDrawListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.RecyclerItemViewBinding
+import com.example.myapplication.utils.LaunchTimer
 
 open class DAdapter(val context: Context): RecyclerView.Adapter<DAdapter.VH>(){
+
+    private var mHasRecorded = false
 
     class VH(val binding: RecyclerItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -24,6 +28,16 @@ open class DAdapter(val context: Context): RecyclerView.Adapter<DAdapter.VH>(){
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
+        if (!mHasRecorded && position == 0) {
+            mHasRecorded = true
+            holder.binding.root.viewTreeObserver.addOnPreDrawListener(object : OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    LaunchTimer.endRecord()
+                    holder.binding.root.viewTreeObserver.removeOnPreDrawListener(this)
+                    return true
+                }
+            })
+        }
         holder.binding.root.text = "Hi." + position
         holder.binding.root.setOnClickListener {
             runnable?.run()
