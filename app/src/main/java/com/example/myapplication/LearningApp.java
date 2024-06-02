@@ -1,22 +1,15 @@
 package com.example.myapplication;
 
 import android.app.Application;
-import android.app.usage.NetworkStatsManager;
 import android.content.Context;
-import android.net.NetworkCapabilities;
-import android.os.Build;
-import android.os.Debug;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.MessageQueue;
 import android.os.StrictMode;
-import android.telephony.TelephonyManager;
-import android.view.Choreographer;
-
-import androidx.core.os.TraceCompat;
 
 import com.example.myapplication.adapters.DAdapter;
 import com.example.myapplication.utils.LaunchTimer;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -32,9 +25,12 @@ import com.example.myapplication.utils.LaunchTimer;
  * TotalTime: 90    //所有act 启动耗时
  * WaitTime: 102    //AMS 启动act 的时间
  * Complete
- *
  */
 public class LearningApp extends Application {
+
+    private final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    private final ExecutorService service = Executors.newFixedThreadPool(Math.max(2, Math.min(CPU_COUNT - 1, 4)));
+    private CountDownLatch mCountDownLatch = new CountDownLatch(1);
 
     @Override
     public void onCreate() {
@@ -44,7 +40,7 @@ public class LearningApp extends Application {
 //        if (BuildConfig.DEBUG) {
 //            Debug.startMethodTracing("App");
 //        }
-            //        new Handler(Looper.getMainLooper()).postDelayed(
+        //        new Handler(Looper.getMainLooper()).postDelayed(
 //                new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -52,11 +48,11 @@ public class LearningApp extends Application {
 //                    }
 //                }, 5000
 //        );
-
         initGlide();
         initRetrofit();
         initSDK1();
         initSDK2();
+        initAppsFlyer();
 //        if (BuildConfig.DEBUG) {
 //            Debug.stopMethodTracing();
 //        }
@@ -105,29 +101,41 @@ public class LearningApp extends Application {
     private void initRetrofit() {
         try {
             Thread.sleep(200);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     private void initGlide() {
         try {
             Thread.sleep(200);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     private void initSDK1() {
         try {
             Thread.sleep(200);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
+
+    private void initAppsFlyer() {
+        try {
+            Thread.sleep(200);
+        } catch (Exception e) {
+        }
+    }
+
 
     private void initSDK2() {
         try {
             Thread.sleep(200);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 
     private void loopLog() {
-       // Looper.getMainLooper().setMessageLogging();
+        // Looper.getMainLooper().setMessageLogging();
     }
 
 }
