@@ -52,7 +52,8 @@ class GlideTestActivity : AppCompatActivity(){
     // 用 AUTO:    1.409kb     点击后  3.522kb
 
 
-    //补充： resource  和 data 一模一样的额时候 （只有都用Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAl）: 不再生成新文件。
+    //补充： resource  和 data 一模一样的额时候 下面方法无论先data还是先resource
+    // （只有都用Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAl）: 不再生成新文件。
 
     private lateinit var binding: GlideTestLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,13 +64,13 @@ class GlideTestActivity : AppCompatActivity(){
         //网络图
         Glide.with(this).load("https://pic1.zhimg.com/v2-a6b58e82c8cdb830ad7bd85d86469458_l.jpg?source=172ae18b")
             .diskCacheStrategy(
-                DiskCacheStrategy.DATA
+                DiskCacheStrategy.RESOURCE
             ).override(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL).into(binding.image)
         binding.imag1e.setOnClickListener {
            // Glide.
             Glide.with(this).load("https://pic1.zhimg.com/v2-a6b58e82c8cdb830ad7bd85d86469458_l.jpg?source=172ae18b")
                 .diskCacheStrategy(
-                    DiskCacheStrategy.RESOURCE
+                    DiskCacheStrategy.DATA
                 ).override(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL).into(binding.image)
             binding.root.postDelayed({
                 ToastUtils.showShort("OK啊")
