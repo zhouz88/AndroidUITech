@@ -52,7 +52,7 @@ class GlideTestActivity : AppCompatActivity(){
     // 用 AUTO:    1.409kb     点击后  3.522kb
 
 
-    //补充： resource  和 data 一模一样的额时候 下面方法无论先data还是先resource
+    //补充： resourceKey  和 dataKEY 一模一样的额时候 下面方法无论先data还是先resource
     // （只有都用Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAl）: 不再生成新文件。
 
     private lateinit var binding: GlideTestLayoutBinding
