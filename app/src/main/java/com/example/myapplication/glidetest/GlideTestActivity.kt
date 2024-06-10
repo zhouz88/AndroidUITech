@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.Target
 import com.example.myapplication.databinding.GlideTestLayoutBinding
+import java.security.MessageDigest
 
 class GlideTestActivity : AppCompatActivity(){
     // 原图: 由datacachekey 索引的文件 （原始inputstream得到流文件）, resource图： 已经解码过的图片资源由resourcecachekey索引的文件
@@ -53,9 +54,10 @@ class GlideTestActivity : AppCompatActivity(){
 
 
     //补充： resourceKey  和 dataKEY 一模一样的额时候 下面方法无论先data还是先resource
-    // （只有都用Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAl）: 不再生成新文件。
+    // （只有都用Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAl）: 貌似不会走到磁盘缓存，只会用内存缓存。
 
     //分析原因 暂时不知道： 可能文件名字就存的是 url + original + original 这样存的 导致resource 和data 两个key 都映射过来这个文件
+    //使用signature可以避免
 
     private lateinit var binding: GlideTestLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
