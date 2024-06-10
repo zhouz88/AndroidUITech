@@ -2,6 +2,8 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import android.os.Bundle
 import android.os.HandlerThread
 import android.os.Process.THREAD_PRIORITY_LOWEST
@@ -15,6 +17,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.view.LayoutInflaterCompat
+import androidx.core.widget.NestedScrollView
+import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.SmartLayoutBinding
 import com.gyf.immersionbar.ImmersionBar
 
@@ -106,6 +110,15 @@ class NestedScrollActivity: AppCompatActivity() {
                 Choreographer.getInstance().postFrameCallback(this)
             }
         })
+
+
+        //测电量  价值不大，是整体电量，不是特定App 只能在线下使用
+        val filter = IntentFilter()
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED)
+        val intent1 = registerReceiver(null, filter)
+
+        Log.d("zhouzhengB", "battery "+ intent1!!.getIntExtra(BatteryManager.EXTRA_LEVEL, 0))
+
         val intent = Intent(this, SlideQQActivity::class.java)
         startActivity(intent)
     }
@@ -127,5 +140,14 @@ class NestedScrollActivity: AppCompatActivity() {
 //
 //        Log.d("zhouzheng", ""+(f as RefreshContentWrapper).canRefresh())
 //    }
+
+    override fun onTrimMemory(level: Int) {
+        TRIM_MEMORY_RUNNING_LOW
+        super.onTrimMemory(level)
+//        Glide.with(this).onTrimMemory()
+//        Glide.get(this).clearMemory()
+//        Glide.get(this).clearDiskCache()
+        //在最严重的等级 ，清空所有图片，强制跳转到主界面
+    }
 }
 

@@ -24,7 +24,7 @@
 //            Socket socket = sslSocketFactory.createSocket("example.com", 443); 、、
 //            SSLSocket sslSocket = (SSLSocket) socket;
 //
-//            // 开始 SSL 握手，这会验证服务器的证书 在建立安全连接的过程中，先进行TCP三次握手，再进行SSL握手
+//            // 开始 SSL 握手，一旦TCP连接建立成功，你就可以调用startHandshake()方法来启动SSL握手过程。在这个过程中，客户端和服务器将交换证书、密钥等信息，以协商一个安全的通信会话。
 //            sslSocket.startHandshake()；
 //
 //            // 发送 HTTP 请求
@@ -80,7 +80,65 @@
 //        }
 //        })
 //        }
+//Java中，使用Socket进行通信时，你需要手动解析HTTP响应以获取状态码、响应头和响应体。以下是一个简单的示例，展示如何使用Socket连接到HTTP服务器，并解码响应以获取这些组件：
 
+    //   java
+import java.io.*;
+import java.net.Socket;
+
+//public class HttpSocketClient {
+//    public static void main(String[] args) {
+//        String host = "example.com";
+//        int port = 80;
+//        String path = "/path/to/resource";
+//
+//        try (Socket socket = new Socket(host, port);
+//             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+//             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+//
+//            // 构建HTTP请求
+//            String request = "GET " + path + " HTTP/1.1\r\n" +
+//                    "Host: " + host + "\r\n" +
+//                    "Connection: close\r\n" +
+//                    "\r\n";
+//            out.print(request);
+//
+//            // 读取响应行（包含状态码）
+//            String responseLine = in.readLine();
+//            if (responseLine == null) {
+//                throw new IOException("Server closed connection without sending a response");
+//            }
+//            System.out.println("Response Line: " + responseLine);
+//            String[] parts = responseLine.split(" ");
+//            int statusCode = Integer.parseInt(parts[1]);
+//            System.out.println("Status Code: " + statusCode);
+//
+//            // 读取响应头部
+//            System.out.println("Response Headers:");
+//            Map<String, String> headers = new HashMap<>();
+//            String headerLine;
+//            while ((headerLine = in.readLine()) != null && !headerLine.isEmpty()) {
+//                String[] headerParts = headerLine.split(": ", 2);
+//                if (headerParts.length == 2) {
+//                    headers.put(headerParts[0], headerParts[1]);
+//                    System.out.println(headerLine);
+//                }
+//            }
+//
+//            // 获取响应体InputStream
+//            InputStream responseBodyStream = socket.getInputStream();
+//            System.out.println("Response Body InputStream:");
+//            // 这里可以根据需要处理InputStream，例如写入文件或转换为字符串等
+//            // 注意：这里只是展示了如何获取InputStream，并未实际读取它的内容
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//}
+//在这个示例中，我们首先创建了一个到指定主机和端口的Socket连接。然后，我们构建了一个简单的HTTP GET请求，并通过PrintWriter发送到服务器。接下来，我们使用BufferedReader从服务器的输入流中读取响应行，解析出状态码。之后，我们继续读取响应头，并将它们存储在一个Map中。最后，我们获取了响应体的InputStream，但并未实际读取它的内容。你可以根据需要处理这个InputStream，例如将其写入文件，或者转换为字符串等。
+//
+//        请注意，这个示例非常基础，没有处理可能的连接错误、超时或重定向等情况。在实际应用中，你可能需要添加更多的错误处理和功能。此外，对于更复杂的HTTP交互，建议使用现有的HTTP客户端库（如Apache HttpClient或OkHttp），它们提供了更强大和灵活的功能。
 
 //在标准的Socket通信中，服务器不会主动联系客户端。相反，是客户端主动连接到服务器。在连接过程中，客户端确实会把自己的IP地址和端口号告诉服务器，但这个过程是自动完成的，无需客户端显式地发送这些信息。
 //

@@ -1,11 +1,16 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+
+import com.example.myapplication.utils.WakeLockUtils;
 
 import java.lang.reflect.Method;
 
 import me.ele.lancet.base.Origin;
+import me.ele.lancet.base.Scope;
 import me.ele.lancet.base.annotations.Insert;
 import me.ele.lancet.base.annotations.TargetClass;
 
@@ -122,7 +127,7 @@ public class MyHook {
         }
     }
 
-    private void show(Throwable throwable) {
+    public void show(Throwable throwable) {
         StackTraceElement[] elements = throwable.getStackTrace();
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < elements.length; i++) {
@@ -131,4 +136,40 @@ public class MyHook {
         }
         Log.d("zhouzheng c", builder.toString());
     }
+
+    public static long sStartTime = 0;
+    public static String trace;
+
+    @Insert("acquire")
+    @TargetClass("com.optimize.performance.wakelock.WakeLockUtils")
+    public void da(Context context){
+        try {
+            Log.d("zhouzhengp", "nowhook");
+            trace = Log.getStackTraceString(new Throwable());
+            sStartTime = System.currentTimeMillis();
+            Origin.callVoid();
+            handler.postDelayed(runnable, 1000);
+        } catch (Exception e){}
+    }
+
+    public static Handler handler = new Handler();
+
+
+    public static class xxx implements Runnable {
+        @Override
+        public void run() {
+            WakeLockUtils.getInstance().release();
+        }
+    }
+    public static Runnable runnable = new xxx();
+
+    @Insert("release")
+    @TargetClass("com.optimize.performance.wakelock.WakeLockUtils")
+    public  void adsfe(){
+        try {
+            Log.d("zhouzhengp", "PowerManager " + (System.currentTimeMillis() - sStartTime) + "/n" + trace);
+            Origin.callVoid();
+        } catch (Exception e) {}
+    }
+
 }

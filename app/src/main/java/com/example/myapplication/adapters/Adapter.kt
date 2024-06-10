@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.databinding.RecyclerItemViewBinding
 import com.example.myapplication.utils.LaunchTimer
+import com.example.myapplication.utils.WakeLockUtils
 
 open class DAdapter(val context: Context): RecyclerView.Adapter<DAdapter.VH>(){
 
@@ -40,7 +41,11 @@ open class DAdapter(val context: Context): RecyclerView.Adapter<DAdapter.VH>(){
         }
         holder.binding.root.text = "Hi." + position
         holder.binding.root.setOnClickListener {
-            runnable?.run()
+            WakeLockUtils.getInstance().acquire(holder.binding.root.context)
+            it.postDelayed({
+                WakeLockUtils.getInstance().release()
+            },200)
+            //runnable?.run()
         }
     }
 

@@ -2,14 +2,21 @@ package com.example.myapplication;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.StrictMode;
+import android.widget.ImageView;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.example.myapplication.adapters.DAdapter;
+import com.example.myapplication.arthook.ImageHook;
 import com.example.myapplication.utils.LaunchTimer;
+import com.taobao.android.dexposed.DexposedBridge;
+import com.taobao.android.dexposed.XC_MethodHook;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 
 /**
@@ -53,11 +60,32 @@ public class LearningApp extends Application {
         initSDK1();
         initSDK2();
         initAppsFlyer();
+
+        FileUtils.deleteAllInDir(getApplicationContext().getCacheDir());
 //        if (BuildConfig.DEBUG) {
 //            Debug.stopMethodTracing();
 //        }
 
         androidx.tracing.Trace.endSection();
+
+/**
+ * 	 * Hooks all methods with a certain name that were declared in the specified class. Inherited
+ * 	 * methods and constructors are not considered. For constructors, use
+ * 	 * {@link #hookAllConstructors} instead.
+ * 	 *
+ * 	 * @param hookClass The class to check for declared methods.
+ * 	 * @param methodName The name of the method(s) to hook.
+ * 	 * @param callback The callback to be executed when the hooked methods are called.
+ * 	 * @return A set containing one object for each found method which can be used to unhook it.
+//**/
+//        DexposedBridge.hookAllConstructors(ImageView.class, new XC_MethodHook() {
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                super.afterHookedMethod(param);
+//                DexposedBridge.findAndHookMethod(ImageView.class, "setImageBitmap",
+//                        Bitmap.class, new ImageHook());
+//            }
+//        });
     }
 
     @Override
