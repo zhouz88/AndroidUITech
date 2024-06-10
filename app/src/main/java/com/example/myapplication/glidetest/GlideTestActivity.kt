@@ -55,6 +55,8 @@ class GlideTestActivity : AppCompatActivity(){
     //补充： resourceKey  和 dataKEY 一模一样的额时候 下面方法无论先data还是先resource
     // （只有都用Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAl）: 不再生成新文件。
 
+    //分析原因 暂时不知道： 可能文件名字就存的是 url + original + original 这样存的 导致resource 和data 两个key 都映射过来这个文件
+
     private lateinit var binding: GlideTestLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
