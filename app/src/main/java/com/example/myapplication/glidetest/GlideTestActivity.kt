@@ -16,7 +16,7 @@ import com.bumptech.glide.request.target.Target
 import com.example.myapplication.databinding.GlideTestLayoutBinding
 
 class GlideTestActivity : AppCompatActivity(){
-    // 原图: 由datacachekey 索引的文件 （原始inputstream得到流文件）, resource图： 由resourcecachekey索引的文件
+    // 原图: 由datacachekey 索引的文件 （原始inputstream得到流文件）, resource图： 已经解码过的图片资源由resourcecachekey索引的文件
     //网络图
     // data 只存原图，resource 除了原图都存， None 什么也不存。  ALL : data和Resource都存， Auto: 等价于 data
     // 500dp
