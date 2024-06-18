@@ -2,16 +2,13 @@ package com.example.myapplication;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.StrictMode;
-import android.widget.ImageView;
+import android.util.Log;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.example.myapplication.adapters.DAdapter;
-import com.example.myapplication.arthook.ImageHook;
 import com.example.myapplication.utils.LaunchTimer;
-import com.taobao.android.dexposed.DexposedBridge;
-import com.taobao.android.dexposed.XC_MethodHook;
+import com.zz.lib1.HiLib;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -157,6 +154,8 @@ public class LearningApp extends Application {
 
     private void initSDK2() {
         try {
+            HiLib hi = new HiLib();
+            Log.d("zhouzheng", ""+hi.getInt());
             Thread.sleep(200);
         } catch (Exception e) {
         }

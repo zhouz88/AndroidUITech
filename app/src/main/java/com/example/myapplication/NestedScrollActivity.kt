@@ -15,7 +15,7 @@ import android.view.Choreographer.FrameCallback
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+//import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.view.LayoutInflaterCompat
 import androidx.core.widget.NestedScrollView
 import com.bumptech.glide.Glide
@@ -79,11 +79,11 @@ class NestedScrollActivity: AppCompatActivity() {
 //            }
 //        }
         //
-        AsyncLayoutInflater(this).inflate(R.layout.smart_layout, null
-        ) { view, resid, parent ->
-            binding2 = SmartLayoutBinding.bind(view)
-            setContentView(binding2.root)
-        }
+//        AsyncLayoutInflater(this).inflate(R.layout.smart_layout, null
+//        ) { view, resid, parent ->
+//            binding2 = SmartLayoutBinding.bind(view)
+//            setContentView(binding2.root)
+//        }
 
 //        nice 和 cgroup
 //        THREAD_PRIORITY_LOWEST

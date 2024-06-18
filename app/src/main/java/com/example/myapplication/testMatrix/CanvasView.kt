@@ -1,9 +1,7 @@
 package com.example.myapplication.testMatrix
 
 import android.animation.ValueAnimator
-import android.app.Application
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.BitmapShader

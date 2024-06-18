@@ -24,6 +24,14 @@ allprojects {
         google()
         mavenCentral()
         jcenter()
+        maven {
+            url "http://localhost:8081/repository/maven-releases/"
+            allowInsecureProtocol true
+            credentials {
+                username "admin"
+                password "admin123"
+            }
+        }
         maven { url = file("${project.rootDir}/repos") }
     }
 }
