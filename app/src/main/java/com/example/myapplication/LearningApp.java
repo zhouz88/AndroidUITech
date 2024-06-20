@@ -10,6 +10,7 @@ import com.example.myapplication.adapters.DAdapter;
 import com.example.myapplication.utils.LaunchTimer;
 import com.zz.lib1.HiLib;
 
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -155,9 +156,11 @@ public class LearningApp extends Application {
     private void initSDK2() {
         try {
             HiLib hi = new HiLib();
-            Log.d("zhouzheng", ""+hi.getInt());
+            Log.d("zhouzheng", ""+hi.getInt() +":"+  hi.noExp());
             Thread.sleep(200);
         } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("zhouzheng", "bugs bugts bussss");
         }
     }
 

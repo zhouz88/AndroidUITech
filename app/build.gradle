@@ -71,5 +71,26 @@ dependencies {
     implementation 'com.trello.rxlifecycle3:rxlifecycle-android:3.1.0'
     implementation 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'org.zhouzheng.widget:zhengview:3.0.0'
+    implementation 'com.zhouzheng.widget:view:6.0.0'
+    implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
 }
+/**
+ * 一个模块应用了 代码 例如implementation 'library:version1'） 而 一个App引用了这个implementation 'library:version2'，那么最终打包后的library 是 version1 还是 version2 还是 只有一个存在？
+ 在Gradle构建系统中，当一个模块使用implementation配置依赖了某个库（例如implementation 'library:version1'），并且一个App同时也直接依赖了这个库的另一个版本（例如implementation 'library:version2'），最终打包后的App将只包含库的一个版本。具体是哪个版本取决于Gradle的依赖解析机制。
+
+ Gradle的依赖解析会尝试找到一个所有依赖都兼容的版本。这通常意味着它会选择最高版本的库，只要这个版本与所有其他依赖项兼容。然而，如果版本之间存在冲突（例如，版本1和版本2不兼容），Gradle会报错并提示你解决冲突。
+
+ 在你的例子中，如果library:version1和library:version2是兼容的（这通常意味着它们属于同一个库的同一个主要版本，并且向后兼容），Gradle可能会选择version2，因为它是直接依赖的最新版本。但是，这取决于具体的依赖配置和Gradle的解析策略。
+
+ 为了解决这个问题，并确保你的项目使用了正确的库版本，你应该：
+
+ 明确依赖版本：尽量避免在项目的不同部分引入相同库的不同版本。这可以减少潜在的版本冲突和不确定性。
+
+ 使用依赖解析策略：Gradle允许你通过配置resolutionStrategy来定义如何解析依赖冲突。例如，你可以强制使用特定版本的库，或者指定如何选择兼容的版本。
+
+ 查看依赖树：Gradle提供了一个命令（例如./gradlew app:dependencies）来显示项目的依赖树。这可以帮助你理解哪个版本的库被最终选择，以及为什么。
+
+ 统一库版本：如果可能的话，尽量在整个项目中统一使用库的相同版本。这有助于减少构建复杂性，并确保一致性。
+
+ 总之，最终打包后的App将只包含一个版本的库，具体是哪个版本取决于Gradle的依赖解析机制和你的项目配置。为了避免潜在的冲突和不确定性，你应该明确并统一你的依赖版本。
+ */
