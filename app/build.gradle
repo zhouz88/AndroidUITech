@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 apply plugin: 'me.ele.lancet'
+apply plugin: "com.zheng.router"
 
 android {
     namespace = "com.example.myapplication"
@@ -41,6 +42,10 @@ android {
         compose true
         viewBinding true
     }
+}
+
+zhouzhengplugin {
+    wikiDir getRootDir().absolutePath
 }
 
 apply from: './compose.gradle'
