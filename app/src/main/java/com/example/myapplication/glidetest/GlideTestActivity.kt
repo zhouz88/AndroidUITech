@@ -14,8 +14,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.Target
 import com.example.myapplication.databinding.GlideTestLayoutBinding
+import com.zz.router_annotation.Destination
 import java.security.MessageDigest
 
+
+@Destination(url = "route://glidetest", description = "glide测试页面")
 class GlideTestActivity : AppCompatActivity(){
     // 原图: 由datacachekey 索引的文件 （原始inputstream得到流文件）, resource图： 已经解码过的图片资源由resourcecachekey索引的文件
     //网络图

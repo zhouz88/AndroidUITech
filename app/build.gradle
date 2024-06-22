@@ -76,8 +76,11 @@ dependencies {
     implementation 'com.trello.rxlifecycle3:rxlifecycle-android:3.1.0'
     implementation 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.zhouzheng.widget:view:6.0.0'
+    implementation 'com.zhouzheng.widget:view:6.0.0' //lib
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
+
+    implementation 'com.router-annotation.zheng:code:2.0.0'
+    kapt 'com.router-processor.zheng:code:6.0.0'
 }
 /**
  * 一个模块应用了 代码 例如implementation 'library:version1'） 而 一个App引用了这个implementation 'library:version2'，那么最终打包后的library 是 version1 还是 version2 还是 只有一个存在？

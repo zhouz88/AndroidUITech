@@ -1,0 +1,1 @@
+[{"url":"route://matrixtest","description":"matrix测试页面","realPath":"com.example.myapplication.testMatrix.TestMatrixActivity"},{"url":"route://glidetest","description":"glide测试页面","realPath":"com.example.myapplication.glidetest.GlideTestActivity"}]
